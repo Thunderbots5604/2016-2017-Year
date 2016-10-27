@@ -1,5 +1,4 @@
-
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,8 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Template: Linear OpMode", group="Linear Opmode")
-public class TemplateOpMode_Linear extends LinearOpMode {
+@TeleOp(name="TeleOpTest", group="Linear Opmode")  // @Autonomous(...) is the other common choice
+@Disabled
+public class TeleOpTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -19,6 +19,12 @@ public class TemplateOpMode_Linear extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        DcMotor leftMotorFront = null;
+        DcMotor leftMotorBack = null;
+
+        DcMotor rightMotorFront = null;
+        DcMotor rightMotorBack = null;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
