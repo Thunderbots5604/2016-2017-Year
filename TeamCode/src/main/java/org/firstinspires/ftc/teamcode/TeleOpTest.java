@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @TeleOp(name="TeleOpTest", group="Linear Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
 public class TeleOpTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -32,11 +31,11 @@ public class TeleOpTest extends LinearOpMode {
         rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
 
-        leftMotorFront.setDirection(DcMotor.Direction.FORWARD);
-        leftMotorBack.setDirection(DcMotor.Direction.FORWARD);
+        leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
+        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
 
-        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
+        rightMotorFront.setDirection(DcMotor.Direction.FORWARD);
+        rightMotorBack.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -46,8 +45,8 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-            leftMotorFront.setPower(-gamepad1.left_stick_y);
-            leftMotorBack.setPower(-gamepad1.left_stick_y);
+            leftMotorFront.setPower(gamepad1.left_stick_y);
+            leftMotorBack.setPower(gamepad1.left_stick_y);
 
             rightMotorFront.setPower(gamepad1.left_stick_y);
             rightMotorBack.setPower(gamepad1.left_stick_y);
