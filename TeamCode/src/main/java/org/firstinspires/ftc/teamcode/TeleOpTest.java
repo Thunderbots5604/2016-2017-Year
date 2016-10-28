@@ -45,12 +45,19 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
+            //Forward and backward moving methods
             leftMotorFront.setPower(gamepad1.left_stick_y);
             leftMotorBack.setPower(gamepad1.left_stick_y);
 
             rightMotorFront.setPower(gamepad1.left_stick_y);
             rightMotorBack.setPower(gamepad1.left_stick_y);
 
+            //Turning methods in TeleOp
+            leftMotorFront.setPower(-gamepad1.left_stick_x);
+            leftMotorBack.setPower(-gamepad1.left_stick_x);
+
+            rightMotorFront.setPower(gamepad1.left_stick_x);
+            rightMotorBack.setPower(gamepad1.left_stick_x);
         }
     }
 }
