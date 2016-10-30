@@ -56,13 +56,6 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorFront.setPower(gamepad1.left_stick_y);
                 rightMotorBack.setPower(gamepad1.left_stick_y);
             }
-            else if(gamepad1.left_stick_y != 0 && gamepad1.a) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y * .5);
-                leftMotorBack.setPower(-gamepad1.left_stick_y * .5);
-
-                rightMotorFront.setPower(gamepad1.left_stick_y * .5);
-                rightMotorBack.setPower(gamepad1.left_stick_y * .5);
-            }
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x != 0) {
                 leftMotorFront.setPower(gamepad1.right_stick_x);
