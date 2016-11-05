@@ -21,6 +21,7 @@ public class TeleOpTest extends LinearOpMode {
 
         double speed;
         double turningSpeed;
+        boolean halfSpeedTrigger;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
@@ -45,21 +46,45 @@ public class TeleOpTest extends LinearOpMode {
         runtime.reset();
 
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            /*telemetry.addData("Status", "Run Time: " + runtime.toString());*/
+
+            speed = 0;
+            turningSpeed = 0;
+            halfSpeedTrigger = false;
+
+            telemetry.addData("Speed: ", speed);
+            telemetry.addData("Turning Speed: ", turningSpeed);
             telemetry.update();
+
+            //A button triggers Half Speed
+            if(gamepad1.a && halfSpeedTrigger == false){
+                halfSpeedTrigger = true;
+            }
+            if(gamepad1.a && halfSpeedTrigger) {
+                halfSpeedTrigger = false;
+            }
+            if(halfSpeedTrigger == false) {
+                speed = gamepad1.left_stick_y;
+                turningSpeed = gamepad1.right_stick_x;
+            }
+            else if(halfSpeedTrigger) {
+                speed = gamepad1.left_stick_y * .1;
+                turningSpeed = gamepad1.right_stick_x * .1;
+            }
 
             //Forward and backward moving method
             if(gamepad1.left_stick_y != 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y);
-                leftMotorBack.setPower(-gamepad1.left_stick_y);
+                leftMotorFront.setPower(-speed);
+                leftMotorBack.setPower(-speed);
 
-                rightMotorFront.setPower(gamepad1.left_stick_y);
-                rightMotorBack.setPower(gamepad1.left_stick_y);
+                rightMotorFront.setPower(speed);
+                rightMotorBack.setPower(speed);
             }
+
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x < 0) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
+                leftMotorFront.setPower(turningSpeed);
+                leftMotorBack.setPower(turningSpeed);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
@@ -68,8 +93,8 @@ public class TeleOpTest extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
+                rightMotorFront.setPower(turningSpeed);
+                rightMotorBack.setPower(turningSpeed);
             }
             else  {
                 leftMotorFront.setPower(0);
