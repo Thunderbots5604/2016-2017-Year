@@ -33,6 +33,8 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor sweeper = null;
 
+        DcMotor strafe = null;
+
         Servo leftServo;
         Servo rightServo;
 
@@ -44,13 +46,13 @@ public class TeleOpTest extends LinearOpMode {
 
         sweeper = hardwareMap.dcMotor.get("sweeper");
 
+        strafe = hardwareMap.dcMotor.get("strafe");
+
         leftServo = hardwareMap.servo.get("left_servo");
         rightServo = hardwareMap.servo.get("right_servo");
 
-/*        leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorFront.setDirection(DcMotor.Direction.FORWARD);
-        rightMotorBack.setDirection(DcMotor.Direction.FORWARD);*/
+        double leftStarting = leftServo.getPosition();
+        double rightStarting = rightServo.getPosition();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -58,15 +60,18 @@ public class TeleOpTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            //Stuff to display for Telemetry
             rightSpeed = leftMotorFront.getPower();
             leftSpeed = rightMotorFront.getPower();
 
-/*            telemetry.addData("Status", "Run Time: " + runtime.toString());*/
+
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Actual Speed Right: ", rightSpeed);
             telemetry.addData("Actual Speed Left: ", leftSpeed);
             telemetry.addData("Half Speed: ", halfSpeed);
             telemetry.update();
 
+            //Half Speed Toggle Method
             if(gamepad1.a == true && halfSpeed == false) {
                 halfSpeed = true;
             }
@@ -97,6 +102,8 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorFront.setPower(gamepad1.right_stick_x);
                 rightMotorBack.setPower(gamepad1.right_stick_x);
             }
+
+            //Swing turn methods
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0 && halfSpeed == false) {
                 leftMotorFront.setPower(-gamepad1.right_stick_x);
                 leftMotorBack.setPower(-gamepad1.right_stick_x);
@@ -126,7 +133,7 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorBack.setPower(gamepad1.right_stick_x);
             }
 
-            //METHODS FOR HALFSPEED
+            //MOVEMENT METHODS FOR HALFSPEED
             else if(gamepad1.left_stick_y != 0 && gamepad1.right_stick_x == 0 && halfSpeed == true) {
                 leftMotorFront.setPower(-gamepad1.left_stick_y * .25);
                 leftMotorBack.setPower(-gamepad1.left_stick_y * .25);
@@ -134,7 +141,7 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorFront.setPower(gamepad1.left_stick_y * .25);
                 rightMotorBack.setPower(gamepad1.left_stick_y * .25);
             }
-            //Turning methods in TeleOp
+            //Turning methods in TeleOp while in Half Speed
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
                 leftMotorFront.setPower(gamepad1.right_stick_x * .25);
                 leftMotorBack.setPower(gamepad1.right_stick_x * .25);
@@ -149,6 +156,7 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorFront.setPower(gamepad1.right_stick_x * .25);
                 rightMotorBack.setPower(gamepad1.right_stick_x * .25);
             }
+            //Swing turn methods
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0 && halfSpeed == true) {
                 leftMotorFront.setPower(-gamepad1.right_stick_x * .25);
                 leftMotorBack.setPower(-gamepad1.right_stick_x * .25);
@@ -187,7 +195,6 @@ public class TeleOpTest extends LinearOpMode {
 
 
             //Sweeper Code
-
             if(gamepad1.right_trigger > 0) {
                 sweeper.setPower(-gamepad1.right_trigger);
             }
@@ -196,6 +203,37 @@ public class TeleOpTest extends LinearOpMode {
             }
             else {
                 sweeper.setPower(0);
+            }
+
+            //Strafe Motor Code
+            if(gamepad1.right_bumper && halfSpeed == false) {
+                strafe.setPower(1);
+            }
+            else if (gamepad1.left_bumper && halfSpeed == false) {
+                strafe.setPower(-1);
+            }
+            if(gamepad1.right_bumper && halfSpeed) {
+                strafe.setPower(.5);
+            }
+            else if (gamepad1.left_bumper && halfSpeed) {
+                strafe.setPower(-.5);
+            }
+            else {
+                strafe.setPower(0);
+            }
+
+            //Booper Code
+
+            if(gamepad2.left_bumper) {
+                leftServo.setPosition(.5);
+            }
+            else if(gamepad2.right_bumper) {
+                rightServo.setPosition(-.5);
+            }
+            //Resets to the position the boopers were initialized at.
+            else {
+                leftServo.setPosition(leftStarting);
+                rightServo.setPosition(rightStarting);
             }
         }
     }
