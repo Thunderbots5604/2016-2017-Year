@@ -23,6 +23,7 @@ public class TeleOpTest extends LinearOpMode {
         double turningSpeed;
         double rightSpeed;
         double leftSpeed;
+        double strafeSpeed;
         boolean halfSpeed = false;
 
         DcMotor leftMotorFront = null;
@@ -54,6 +55,11 @@ public class TeleOpTest extends LinearOpMode {
         double leftStarting = leftServo.getPosition();
         double rightStarting = rightServo.getPosition();
 
+        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
+        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
+        leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
+        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
@@ -64,10 +70,12 @@ public class TeleOpTest extends LinearOpMode {
             rightSpeed = leftMotorFront.getPower();
             leftSpeed = rightMotorFront.getPower();
 
+            strafeSpeed = strafe.getPower();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Actual Speed Right: ", rightSpeed);
-            telemetry.addData("Actual Speed Left: ", leftSpeed);
+/*            telemetry.addData("Actual Speed Right: ", rightSpeed);
+            telemetry.addData("Actual Speed Left: ", leftSpeed);*/
+            telemetry.addData("Strafe Speed: ", strafeSpeed);
             telemetry.addData("Half Speed: ", halfSpeed);
             telemetry.update();
 
@@ -89,18 +97,18 @@ public class TeleOpTest extends LinearOpMode {
             }
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == false) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
             }
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0 && halfSpeed == false) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
             }
 
             //Swing turn methods
@@ -206,23 +214,17 @@ public class TeleOpTest extends LinearOpMode {
             }
 
             //Strafe Motor Code
-            if(gamepad1.right_bumper && halfSpeed == false) {
+            if(gamepad1.right_bumper) {
                 strafe.setPower(1);
             }
-            else if (gamepad1.left_bumper && halfSpeed == false) {
+            else if (gamepad1.left_bumper) {
                 strafe.setPower(-1);
-            }
-            if(gamepad1.right_bumper && halfSpeed) {
-                strafe.setPower(.5);
-            }
-            else if (gamepad1.left_bumper && halfSpeed) {
-                strafe.setPower(-.5);
             }
             else {
                 strafe.setPower(0);
             }
 
-            //Booper Code
+/*            //Booper Code
 
             if(gamepad2.left_bumper) {
                 leftServo.setPosition(.5);
@@ -234,7 +236,7 @@ public class TeleOpTest extends LinearOpMode {
             else {
                 leftServo.setPosition(leftStarting);
                 rightServo.setPosition(rightStarting);
-            }
+            }*/
         }
     }
 }
