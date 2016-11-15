@@ -36,6 +36,8 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor strafe = null;
 
+        DcMotor scoringMotor = null;/*
+*/
         Servo leftServo;
         Servo rightServo;
 
@@ -48,6 +50,8 @@ public class TeleOpTest extends LinearOpMode {
         sweeper = hardwareMap.dcMotor.get("sweeper");
 
         strafe = hardwareMap.dcMotor.get("strafe");
+
+/*        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");*/
 
         leftServo = hardwareMap.servo.get("left_servo");
         rightServo = hardwareMap.servo.get("right_servo");
@@ -75,8 +79,10 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Actual Speed Right: ", rightSpeed);
             telemetry.addData("Actual Speed Left: ", leftSpeed);*/
-            telemetry.addData("Strafe Speed: ", strafeSpeed);
-            telemetry.addData("Half Speed: ", halfSpeed);
+/*            telemetry.addData("Strafe Speed: ", strafeSpeed);
+            telemetry.addData("Half Speed: ", halfSpeed);*/
+            telemetry.addData("Left Servo Position: ", leftServo.getPosition());
+            telemetry.addData("Right Servo Position: ", rightServo.getPosition());
             telemetry.update();
 
             //Half Speed Toggle Method
