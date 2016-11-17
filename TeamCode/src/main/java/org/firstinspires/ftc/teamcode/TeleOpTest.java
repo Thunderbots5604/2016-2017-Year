@@ -38,8 +38,11 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor scoringMotor = null;/*
 */
-        Servo leftServo;
-        Servo rightServo;
+        Servo leftServo = null;
+        Servo rightServo = null;
+
+        Servo leftArm = null;
+        Servo rightArm = null;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
@@ -56,8 +59,17 @@ public class TeleOpTest extends LinearOpMode {
         leftServo = hardwareMap.servo.get("left_servo");
         rightServo = hardwareMap.servo.get("right_servo");
 
-        double leftStarting = leftServo.getPosition();
-        double rightStarting = rightServo.getPosition();
+        leftArm = hardwareMap.servo.get("left_arm");
+        rightArm = hardwareMap.servo.get("right_arm");
+
+        double leftStarting = 0;
+        double rightStarting = 1;
+
+        leftServo.setPosition(leftStarting);
+        rightServo.setPosition(rightStarting);
+
+        leftArm.setPosition(rightStarting);
+        rightArm.setPosition(leftStarting);
 
         rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
         rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
@@ -79,10 +91,10 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Actual Speed Right: ", rightSpeed);
             telemetry.addData("Actual Speed Left: ", leftSpeed);*/
-/*            telemetry.addData("Strafe Speed: ", strafeSpeed);
-            telemetry.addData("Half Speed: ", halfSpeed);*/
-            telemetry.addData("Left Servo Position: ", leftServo.getPosition());
-            telemetry.addData("Right Servo Position: ", rightServo.getPosition());
+/*            telemetry.addData("Strafe Speed: ", strafeSpeed);*/
+            telemetry.addData("Half Speed: ", halfSpeed);
+/*            telemetry.addData("Left Servo Position: ", leftServo.getPosition());
+            telemetry.addData("Right Servo Position: ", rightServo.getPosition());*/
             telemetry.update();
 
             //Half Speed Toggle Method
@@ -102,19 +114,19 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorBack.setPower(gamepad1.left_stick_y);
             }
             //Turning methods in TeleOp
-            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == false) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
-
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
-            }
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0 && halfSpeed == false) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
+            }
+            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == false) {
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
+
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
             }
 
             //Swing turn methods
@@ -156,19 +168,19 @@ public class TeleOpTest extends LinearOpMode {
                 rightMotorBack.setPower(gamepad1.left_stick_y * .25);
             }
             //Turning methods in TeleOp while in Half Speed
-            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
-                leftMotorFront.setPower(gamepad1.right_stick_x * .25);
-                leftMotorBack.setPower(gamepad1.right_stick_x * .25);
-
-                rightMotorFront.setPower(gamepad1.right_stick_x * .25);
-                rightMotorBack.setPower(gamepad1.right_stick_x * .25);
-            }
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
-                leftMotorFront.setPower(gamepad1.right_stick_x * .25);
-                leftMotorBack.setPower(gamepad1.right_stick_x * .25);
+                leftMotorFront.setPower(-gamepad1.right_stick_x * .25);
+                leftMotorBack.setPower(-gamepad1.right_stick_x * .25);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x * .25);
-                rightMotorBack.setPower(gamepad1.right_stick_x * .25);
+                rightMotorFront.setPower(-gamepad1.right_stick_x * .25);
+                rightMotorBack.setPower(-gamepad1.right_stick_x * .25);
+            }
+            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
+                leftMotorFront.setPower(-gamepad1.right_stick_x * .25);
+                leftMotorBack.setPower(-gamepad1.right_stick_x * .25);
+
+                rightMotorFront.setPower(-gamepad1.right_stick_x * .25);
+                rightMotorBack.setPower(-gamepad1.right_stick_x * .25);
             }
             //Swing turn methods while in Half Speed
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0 && halfSpeed == true) {
@@ -221,28 +233,35 @@ public class TeleOpTest extends LinearOpMode {
 
             //Strafe Motor Code
             if(gamepad1.right_bumper) {
-                strafe.setPower(1);
+                strafe.setPower(-1);
             }
             else if (gamepad1.left_bumper) {
-                strafe.setPower(-1);
+                strafe.setPower(1);
             }
             else {
                 strafe.setPower(0);
             }
 
-/*            //Booper Code
+            //Booper Code
 
             if(gamepad2.left_bumper) {
                 leftServo.setPosition(.5);
             }
-            else if(gamepad2.right_bumper) {
-                rightServo.setPosition(-.5);
+            if(gamepad2.right_bumper) {
+                rightServo.setPosition(.5);
             }
             //Resets to the position the boopers were initialized at.
             else {
                 leftServo.setPosition(leftStarting);
                 rightServo.setPosition(rightStarting);
-            }*/
+            }
+
+
+            //Releases the holder
+            if(gamepad2.y) {
+                leftArm.setPosition(leftStarting);
+                rightArm.setPosition(rightStarting);
+            }
         }
     }
 }
