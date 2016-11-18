@@ -101,7 +101,7 @@ public class TeleOpTest extends LinearOpMode {
             if(gamepad1.a == true && halfSpeed == false) {
                 halfSpeed = true;
             }
-            else if (gamepad1.a == true && halfSpeed == true) {
+            if (gamepad1.a == true && halfSpeed == true) {
                 halfSpeed = false;
             }
 
@@ -245,10 +245,10 @@ public class TeleOpTest extends LinearOpMode {
             //Booper Code
 
             if(gamepad2.left_bumper) {
-                leftServo.setPosition(.5);
+                leftServo.setPosition(.25);
             }
             if(gamepad2.right_bumper) {
-                rightServo.setPosition(.5);
+                rightServo.setPosition(.25);
             }
             //Resets to the position the boopers were initialized at.
             else {
