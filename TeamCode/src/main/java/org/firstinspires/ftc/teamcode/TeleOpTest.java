@@ -36,8 +36,8 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor strafe = null;
 
-        DcMotor scoringMotor = null;/*
-*/
+        DcMotor scoringMotor = null;
+
         Servo leftServo = null;
         Servo rightServo = null;
 
@@ -54,7 +54,7 @@ public class TeleOpTest extends LinearOpMode {
 
         strafe = hardwareMap.dcMotor.get("strafe");
 
-/*        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");*/
+        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
 
         leftServo = hardwareMap.servo.get("left_servo");
         rightServo = hardwareMap.servo.get("right_servo");
@@ -87,6 +87,8 @@ public class TeleOpTest extends LinearOpMode {
             leftSpeed = rightMotorFront.getPower();
 
             strafeSpeed = strafe.getPower();
+
+            int newScoringArm;
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Actual Speed Right: ", rightSpeed);
@@ -256,11 +258,19 @@ public class TeleOpTest extends LinearOpMode {
                 rightServo.setPosition(rightStarting);
             }
 
-
             //Releases the holder
             if(gamepad2.y) {
                 leftArm.setPosition(leftStarting);
                 rightArm.setPosition(rightStarting);
+            }
+
+            //Sets the scoring arm to three rotations
+            if(gamepad2.a) {
+                newScoringArm = scoringMotor.getCurrentPosition() + 4320;
+                scoringMotor.setTargetPosition(newScoringArm);
+                scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                scoringMotor.setPower(0);
             }
         }
     }

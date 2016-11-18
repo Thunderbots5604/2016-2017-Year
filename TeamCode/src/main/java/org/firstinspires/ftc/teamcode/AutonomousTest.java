@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -23,17 +24,35 @@ public class AutonomousTest extends LinearOpMode {
         DcMotor rightMotorFront = null;
         DcMotor rightMotorBack = null;
 
+        DcMotor sweeper = null;
+
+        DcMotor strafe = null;
+
+        DcMotor scoringMotor = null;
+
+        Servo leftServo = null;
+        Servo rightServo = null;
+
+        Servo leftArm = null;
+        Servo rightArm = null;
+
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
 
         rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
 
-        leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
+        sweeper = hardwareMap.dcMotor.get("sweeper");
 
-        rightMotorFront.setDirection(DcMotor.Direction.FORWARD);
-        rightMotorBack.setDirection(DcMotor.Direction.FORWARD);
+        strafe = hardwareMap.dcMotor.get("strafe");
+
+        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
+
+        leftServo = hardwareMap.servo.get("left_servo");
+        rightServo = hardwareMap.servo.get("right_servo");
+
+        leftArm = hardwareMap.servo.get("left_arm");
+        rightArm = hardwareMap.servo.get("right_arm");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
