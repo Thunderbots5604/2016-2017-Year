@@ -89,16 +89,11 @@ public class TeleOpTest extends LinearOpMode {
 
             strafeSpeed = strafe.getPower();
 
-            int newTarget = scoringMotor.getTargetPosition();
+            double capturingPoint = scoringMotor.getPower();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-/*            telemetry.addData("Actual Speed Right: ", rightSpeed);
-            telemetry.addData("Actual Speed Left: ", leftSpeed);*/
-/*            telemetry.addData("Strafe Speed: ", strafeSpeed);*/
             telemetry.addData("Half Speed: ", halfSpeed);
-            telemetry.addData("Position: ", newTarget);
-/*            telemetry.addData("Left Servo Position: ", leftServo.getPosition());
-            telemetry.addData("Right Servo Position: ", rightServo.getPosition());*/
+            telemetry.addData("Flipper: ", capturingPoint);
             telemetry.update();
 
             //Half Speed Toggle Method
@@ -261,17 +256,33 @@ public class TeleOpTest extends LinearOpMode {
             }
 
             //Releases the holder
-            if(gamepad2.y) {
+            if(gamepad2.y && leftArm.getPosition() != leftStarting && rightArm.getPosition() != rightStarting) {
                 leftArm.setPosition(leftStarting);
                 rightArm.setPosition(rightStarting);
             }
 
+            if(gamepad2.y && leftArm.getPosition() == leftStarting && rightArm.getPosition() == rightStarting) {
+                leftArm.setPosition(rightStarting);
+                rightArm.setPosition(leftStarting);
+            }
+
             //Sets the scoring arm to three rotations
-            if(gamepad2.a) {
+/*            if(gamepad2.a) {
                 newScoringArm = scoringMotor.getCurrentPosition() + 4320;
                 scoringMotor.setTargetPosition(newScoringArm);
                 scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                scoringMotor.setPower(0);
+            }*/
+
+            //Scoring Arm power set
+            if(gamepad2.dpad_up) {
+                scoringMotor.setPower(1.0);
+            }
+            else if (gamepad2.dpad_down) {
+                scoringMotor.setPower(-1.0);
+            }
+            else {
                 scoringMotor.setPower(0);
             }
         }
