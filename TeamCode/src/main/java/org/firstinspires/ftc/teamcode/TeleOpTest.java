@@ -94,6 +94,10 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Half Speed: ", halfSpeed);
             telemetry.addData("Flipper: ", capturingPoint);
+/*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
+            telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
+            telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
+            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
             telemetry.update();
 
             //Half Speed Toggle Method
