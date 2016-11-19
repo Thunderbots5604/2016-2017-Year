@@ -58,14 +58,23 @@ public class AutonomousTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        leftMotorFront.setPower(-1.0);
-        leftMotorBack.setPower(-1.0);
-        rightMotorFront.setPower(1.0);
-        rightMotorBack.setPower(1.0);
+        leftMotorFront.setPower(-.7);
+        leftMotorBack.setPower(-.7);
+        rightMotorFront.setPower(.7);
+        rightMotorBack.setPower(.7);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.1)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
+        }
+    }
+    public void timeDrive(double speed, double inches) {
+        double inchesPerSecond = speed;
+
+        double time = inches * inchesPerSecond;
+
+        while (opModeIsActive()) {
+
         }
     }
 }
