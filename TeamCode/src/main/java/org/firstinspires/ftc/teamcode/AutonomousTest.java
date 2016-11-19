@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="AutonomousTest", group="Linear OpMode")
+@Autonomous(name="AutonomousTestTime", group="Linear OpMode")
 public class AutonomousTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -58,12 +58,12 @@ public class AutonomousTest extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        leftMotorFront.setPower(1.0);
-        leftMotorBack.setPower(1.0);
+        leftMotorFront.setPower(-1.0);
+        leftMotorBack.setPower(-1.0);
         rightMotorFront.setPower(1.0);
         rightMotorBack.setPower(1.0);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }

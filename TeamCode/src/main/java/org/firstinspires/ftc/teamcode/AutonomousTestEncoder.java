@@ -52,28 +52,39 @@ public class AutonomousTestEncoder extends LinearOpMode {
         leftArm = hardwareMap.servo.get("left_arm");
         rightArm = hardwareMap.servo.get("right_arm");
 
+        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        idle();
+
+        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            int rightTargetDistance = rightMotorFront.getTargetPosition() - rightMotorFront.getCurrentPosition();
-            int leftTargetDistance = leftMotorFront.getTargetPosition() - leftMotorFront.getCurrentPosition();
-            telemetry.addData("Target Right Ticks: ", rightTargetDistance);
-            telemetry.addData("Target Left Tisks: ", leftTargetDistance);
-            telemetry.update();
+        int rightTargetDistance = rightMotorFront.getTargetPosition() - rightMotorFront.getCurrentPosition();
+        int leftTargetDistance = leftMotorFront.getTargetPosition() - leftMotorFront.getCurrentPosition();
+        telemetry.addData("Target Right Ticks: ", rightMotorFront.getCurrentPosition());
+        telemetry.addData("Target Left Tisks: ", leftMotorFront.getCurrentPosition());
+        telemetry.addData("Current Right Tisks: ", rightMotorBack.getCurrentPosition());
+        telemetry.addData("Current Left Tisks: ", leftMotorBack.getCurrentPosition());
+        telemetry.update();
 
-            encoderCalulations(1, 58);
-            sleep(5000);
-        }
+        encoderCalulations(1.0, 58.0);
+        sleep(5000);
     }
 
     public void encoderCalulations(double speed, double inches) {
-        int leftFrontTarget;
-        int leftBackTarget;
-        int rightFrontTarget;
-        int rightBackTarget;
+        final int leftFrontTarget;
+        final int leftBackTarget;
+        final int rightFrontTarget;
+        final int rightBackTarget;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
@@ -87,46 +98,40 @@ public class AutonomousTestEncoder extends LinearOpMode {
         rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
 
-        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontTarget = leftMotorFront.getCurrentPosition() + (int) (inches * 45);
+        leftBackTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 45);
+        rightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -45);
+        rightBackTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -45);
 
         if (opModeIsActive()) {
-            leftFrontTarget = leftMotorFront.getCurrentPosition() + (int) (inches * 2184);
-            leftBackTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 2184);
-            rightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -2184);
-            rightBackTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -2184);
 
-            leftMotorFront.setTargetPosition(leftFrontTarget);
+/*            leftMotorFront.setTargetPosition(leftFrontTarget);
             leftMotorBack.setTargetPosition(leftBackTarget);
             rightMotorFront.setTargetPosition(rightFrontTarget);
-            rightMotorBack.setTargetPosition(rightBackTarget);
+            rightMotorBack.setTargetPosition(rightBackTarget);*/
 
-            leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+/*            leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
-            leftMotorFront.setPower(speed);
-            leftMotorBack.setPower(speed);
-            rightMotorFront.setPower(-speed);
-            rightMotorBack.setPower(-speed);
-
-            leftMotorFront.setPower(0);
-            leftMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
-
+            if (leftMotorFront.getCurrentPosition() < leftFrontTarget && leftMotorBack.getCurrentPosition() < leftBackTarget && rightMotorFront.getCurrentPosition() < rightFrontTarget && rightMotorBack.getCurrentPosition() < rightBackTarget) {
+                leftMotorFront.setPower(-speed);
+                leftMotorBack.setPower(-speed);
+                rightMotorFront.setPower(speed);
+                rightMotorBack.setPower(speed);
+            }
+            else {
+                leftMotorFront.setPower(0);
+                leftMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+                rightMotorBack.setPower(0);
+            }
+/*
             leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
         }
     }
 }
