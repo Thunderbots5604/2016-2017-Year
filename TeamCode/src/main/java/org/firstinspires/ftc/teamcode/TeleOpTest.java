@@ -25,6 +25,7 @@ public class TeleOpTest extends LinearOpMode {
         double leftSpeed;
         double strafeSpeed;
         boolean halfSpeed = false;
+        int newScoringArm;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
@@ -88,13 +89,14 @@ public class TeleOpTest extends LinearOpMode {
 
             strafeSpeed = strafe.getPower();
 
-            int newScoringArm;
+            int newTarget = scoringMotor.getTargetPosition();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Actual Speed Right: ", rightSpeed);
             telemetry.addData("Actual Speed Left: ", leftSpeed);*/
 /*            telemetry.addData("Strafe Speed: ", strafeSpeed);*/
             telemetry.addData("Half Speed: ", halfSpeed);
+            telemetry.addData("Position: ", newTarget);
 /*            telemetry.addData("Left Servo Position: ", leftServo.getPosition());
             telemetry.addData("Right Servo Position: ", rightServo.getPosition());*/
             telemetry.update();
@@ -103,7 +105,7 @@ public class TeleOpTest extends LinearOpMode {
             if(gamepad1.a == true && halfSpeed == false) {
                 halfSpeed = true;
             }
-            if (gamepad1.a == true && halfSpeed == true) {
+            else if (gamepad1.a == true && halfSpeed == true) {
                 halfSpeed = false;
             }
 
@@ -247,10 +249,10 @@ public class TeleOpTest extends LinearOpMode {
             //Booper Code
 
             if(gamepad2.left_bumper) {
-                leftServo.setPosition(.25);
+                leftServo.setPosition(.2);
             }
             if(gamepad2.right_bumper) {
-                rightServo.setPosition(.25);
+                rightServo.setPosition(.2);
             }
             //Resets to the position the boopers were initialized at.
             else {
