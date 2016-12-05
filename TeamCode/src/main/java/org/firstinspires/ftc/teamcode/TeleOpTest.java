@@ -39,12 +39,6 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor scoringMotor = null;
 
-        Servo leftServo = null;
-        Servo rightServo = null;
-
-        Servo leftArm = null;
-        Servo rightArm = null;
-
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
 
@@ -57,25 +51,13 @@ public class TeleOpTest extends LinearOpMode {
 
         scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
 
-        leftServo = hardwareMap.servo.get("left_servo");
-        rightServo = hardwareMap.servo.get("right_servo");
-
-        leftArm = hardwareMap.servo.get("left_arm");
-        rightArm = hardwareMap.servo.get("right_arm");
-
         double leftStarting = 0;
         double rightStarting = 1;
 
-        leftServo.setPosition(leftStarting);
-        rightServo.setPosition(rightStarting);
-
-        leftArm.setPosition(rightStarting);
-        rightArm.setPosition(leftStarting);
-
         rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
+/*        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
         leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
+/*        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -235,34 +217,20 @@ public class TeleOpTest extends LinearOpMode {
             }
 
             //Strafe Motor Code
-            if(gamepad1.right_bumper) {
+            if (gamepad1.right_bumper) {
                 strafe.setPower(-1);
             }
             else if (gamepad1.left_bumper) {
                 strafe.setPower(1);
             }
+            else if (gamepad1.left_stick_x < -.5) {
+                strafe.setPower(1);
+            }
+            else if (gamepad1.left_stick_x > .5) {
+                strafe.setPower(-1);
+            }
             else {
                 strafe.setPower(0);
-            }
-
-            //Booper Code
-
-            if(gamepad2.left_bumper) {
-                leftServo.setPosition(.2);
-            }
-            if(gamepad2.right_bumper) {
-                rightServo.setPosition(.2);
-            }
-            //Resets to the position the boopers were initialized at.
-            else {
-                leftServo.setPosition(leftStarting);
-                rightServo.setPosition(rightStarting);
-            }
-
-            //Releases the holder
-            if(gamepad2.y) {
-                leftArm.setPosition(leftStarting);
-                rightArm.setPosition(rightStarting);
             }
 
             //Sets the scoring arm to three rotations
@@ -275,7 +243,7 @@ public class TeleOpTest extends LinearOpMode {
             }*/
 
             //Scoring Arm power set
-            if(gamepad2.dpad_up) {
+/*            if(gamepad2.dpad_up) {
                 scoringMotor.setPower(1.0);
             }
             else if (gamepad2.dpad_down) {
@@ -283,7 +251,7 @@ public class TeleOpTest extends LinearOpMode {
             }
             else {
                 scoringMotor.setPower(0);
-            }
+            }*/
         }
     }
 }
