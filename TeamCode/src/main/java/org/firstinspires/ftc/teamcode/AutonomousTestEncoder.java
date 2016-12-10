@@ -93,10 +93,10 @@ public class AutonomousTestEncoder extends LinearOpMode {
         });
 
         //Move Backward
-        leftMotorFront.setPower(.5);
-        leftMotorBack.setPower(-.5);
-        rightMotorFront.setPower(-.5);
-        rightMotorBack.setPower(.5);
+        leftMotorFront.setPower(.25);
+        leftMotorBack.setPower(-.25);
+        rightMotorFront.setPower(-.25);
+        rightMotorBack.setPower(.25);
 
         while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD)) {
             telemetry.addData("Light Level",  light.getLightDetected());
@@ -144,10 +144,10 @@ public class AutonomousTestEncoder extends LinearOpMode {
         sleep(500);
 
         //Strafe until line
-        leftMotorFront.setPower(.5);
-        leftMotorBack.setPower(-.5);
-        rightMotorFront.setPower(-.5);
-        rightMotorBack.setPower(.5);
+        leftMotorFront.setPower(.25);
+        leftMotorBack.setPower(-.25);
+        rightMotorFront.setPower(-.25);
+        rightMotorBack.setPower(.25);
         while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD)) {
             telemetry.addData("Light Level",  light.getLightDetected());
             telemetry.update();

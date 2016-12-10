@@ -28,7 +28,6 @@ public class TeleOpTest extends LinearOpMode {
         boolean halfSpeed = false;
         boolean bPrevState = false;
         boolean bCurrState = false;
-        boolean bLedOn = true;
         int newScoringArm;
 
         DcMotor leftMotorFront = null;
@@ -67,7 +66,7 @@ public class TeleOpTest extends LinearOpMode {
         leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
 /*        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
 
-        colorSensor.enableLed(bLedOn);
+        colorSensor.enableLed(false);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -86,24 +85,12 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Half Speed: ", halfSpeed);
 /*            telemetry.addData("Flipper: ", capturingPoint);*/
-            telemetry.addData("LED", bLedOn ? "On" : "Off");
 /*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
             telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
 /*            telemetry.addData("Strafe tisks: ", strafe.getCurrentPosition());*/
             telemetry.update();
-
-            //Strobe Light Method
-            bCurrState = gamepad2.x;
-
-            if ((bCurrState == true) && (bCurrState != bPrevState))  {
-
-                // button is transitioning to a pressed state. So Toggle LED
-                bLedOn = !bLedOn;
-                colorSensor.enableLed(bLedOn);
-            }
-            bPrevState = bCurrState;
 
             //Half Speed Toggle Method
             if(gamepad1.a == true && halfSpeed == false) {
