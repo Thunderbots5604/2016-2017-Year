@@ -2,15 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="TeleOpTest", group="Linear Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="TeleOp", group="Linear Opmode")
 public class TeleOpTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -20,15 +17,10 @@ public class TeleOpTest extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        double speed;
-        double turningSpeed;
         double rightSpeed;
         double leftSpeed;
         double strafeSpeed;
         boolean halfSpeed = false;
-        boolean bPrevState = false;
-        boolean bCurrState = false;
-        int newScoringArm;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
@@ -40,9 +32,12 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor strafe = null;
 
+        DcMotor capMechanism = null;
+
         DcMotor scoringMotor = null;
 
-        ColorSensor colorSensor = null;
+        CRServo rightSpin = null;
+        CRServo leftSpin = null;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
@@ -54,19 +49,20 @@ public class TeleOpTest extends LinearOpMode {
 
         strafe = hardwareMap.dcMotor.get("strafe");
 
+        capMechanism = hardwareMap.dcMotor.get("cap");
+
         scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
 
-        colorSensor = hardwareMap.colorSensor.get("color");
+        rightSpin = hardwareMap.crservo.get("right");
+        leftSpin = hardwareMap.crservo.get("left");
 
         double leftStarting = 0;
         double rightStarting = 1;
 
         rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
-/*        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
+        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
         leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
-/*        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
-
-        colorSensor.enableLed(false);
+        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -80,16 +76,13 @@ public class TeleOpTest extends LinearOpMode {
 
             strafeSpeed = strafe.getPower();
 
-            double capturingPoint = scoringMotor.getPower();
-
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Half Speed: ", halfSpeed);
-/*            telemetry.addData("Flipper: ", capturingPoint);*/
 /*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
-            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
-/*            telemetry.addData("Strafe tisks: ", strafe.getCurrentPosition());*/
+            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
+            telemetry.addData("Strafe tisks: ", strafe.getCurrentPosition());*/
             telemetry.update();
 
             //Half Speed Toggle Method
@@ -243,7 +236,7 @@ public class TeleOpTest extends LinearOpMode {
                 strafe.setPower(0);
             }
 
-            //Scoring Arm power set
+            //Scoring Arm Code
             if(gamepad2.dpad_up) {
                 scoringMotor.setPower(1.0);
             }
@@ -252,6 +245,33 @@ public class TeleOpTest extends LinearOpMode {
             }
             else {
                 scoringMotor.setPower(0);
+            }
+
+            //Caping Mechanism Code
+
+            if(gamepad2.y) {
+                capMechanism.setPower(1);
+            }
+            else if(gamepad2.a) {
+                capMechanism.setPower(-1);
+            }
+            else {
+                capMechanism.setPower(0);
+            }
+
+            //CRServo Method
+
+            if(gamepad2.right_bumper) {
+                rightSpin.setPower(1);
+                leftSpin.setPower(-1);
+            }
+            else if (gamepad2.left_bumper) {
+                rightSpin.setPower(-1);
+                leftSpin.setPower(1);
+            }
+            else {
+                rightSpin.setPower(0);
+                leftSpin.setPower(0);
             }
         }
     }
