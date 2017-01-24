@@ -18,9 +18,7 @@ public class TeleOpTest extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        double rightSpeed;
-        double leftSpeed;
-        double strafeSpeed;
+
         boolean halfSpeed = false;
 
         DcMotor leftMotorFront = null;
@@ -76,19 +74,16 @@ public class TeleOpTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             //Stuff to display for Telemetry
-            rightSpeed = leftMotorFront.getPower();
-            leftSpeed = rightMotorFront.getPower();
-
-            strafeSpeed = strafe.getPower();
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Half Speed: ", halfSpeed);
-            telemetry.addData("Cap Speed: ", cap.getPower());
-/*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
+/*            telemetry.addData("Half Speed: ", halfSpeed);*/
+/*            te\lemetry.addData("Cap Speed: ", cap.getPower());
+            telemetry.addData("Flip: ", scorin[pgMotor.getCurrentPosition());*/
+            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
             telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
-            telemetry.addData("Strafe tisks: ", strafe.getCurrentPosition());*/
+            telemetry.addData("Strafe tisks: ", strafe.getCurrentPosition());
             telemetry.addData("Servo Position: ", stopper.getPosition());
             telemetry.update();
 
@@ -125,22 +120,22 @@ public class TeleOpTest extends LinearOpMode {
             }
 
             //Swing turn methods
-            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0 && halfSpeed == false) {
-                leftMotorFront.setPower(gamepad1.right_stick_x);
-                leftMotorBack.setPower(gamepad1.right_stick_x);
+            else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0 && halfSpeed == false) {
+                leftMotorFront.setPower(-gamepad1.left_stick_y);
+                leftMotorBack.setPower(-gamepad1.left_stick_y);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
             }
-            else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0 && halfSpeed == false) {
+            else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0 && halfSpeed == false) {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x);
-                rightMotorBack.setPower(gamepad1.right_stick_x);
+                rightMotorFront.setPower(gamepad1.left_stick_y);
+                rightMotorBack.setPower(gamepad1.left_stick_y);
             }
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0 && halfSpeed == false) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.left_stick_y);
                 leftMotorBack.setPower(-gamepad1.right_stick_x);
 
                 rightMotorFront.setPower(0);
@@ -150,37 +145,37 @@ public class TeleOpTest extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x);
-                rightMotorBack.setPower(-gamepad1.right_stick_x);
+                rightMotorFront.setPower(gamepad1.left_stick_y);
+                rightMotorBack.setPower(gamepad1.left_stick_y);
             }
 
             //MOVEMENT METHODS FOR HALFSPEED
             else if(gamepad1.left_stick_y != 0 && gamepad1.right_stick_x == 0 && halfSpeed == true) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y * .25);
-                leftMotorBack.setPower(-gamepad1.left_stick_y * .25);
+                leftMotorFront.setPower(-gamepad1.left_stick_y);
+                leftMotorBack.setPower(-gamepad1.left_stick_y);
 
-                rightMotorFront.setPower(gamepad1.left_stick_y * .25);
-                rightMotorBack.setPower(gamepad1.left_stick_y * .25);
+                rightMotorFront.setPower(gamepad1.left_stick_y);
+                rightMotorBack.setPower(gamepad1.left_stick_y);
             }
             //Turning methods in TeleOp while in Half Speed
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                leftMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                rightMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
             }
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0 && halfSpeed == true) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                leftMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                leftMotorFront.setPower(-gamepad1.right_stick_x);
+                leftMotorBack.setPower(-gamepad1.right_stick_x);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                rightMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                rightMotorFront.setPower(-gamepad1.right_stick_x);
+                rightMotorBack.setPower(-gamepad1.right_stick_x);
             }
             //Swing turn methods while in Half Speed
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y > 0 && halfSpeed == true) {
-                leftMotorFront.setPower(gamepad1.right_stick_x * .5);
-                leftMotorBack.setPower(gamepad1.right_stick_x * .5);
+                leftMotorFront.setPower(-gamepad1.left_stick_y);
+                leftMotorBack.setPower(-gamepad1.left_stick_y);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
@@ -189,12 +184,12 @@ public class TeleOpTest extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(gamepad1.right_stick_x * .5);
-                rightMotorBack.setPower(gamepad1.right_stick_x * .5);
+                rightMotorFront.setPower(gamepad1.left_stick_y);
+                rightMotorBack.setPower(gamepad1.left_stick_y);
             }
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0 && halfSpeed == true) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                leftMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                leftMotorFront.setPower(gamepad1.left_stick_y);
+                leftMotorBack.setPower(gamepad1.left_stick_y);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
@@ -203,8 +198,8 @@ public class TeleOpTest extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x * .5);
-                rightMotorBack.setPower(-gamepad1.right_stick_x * .5);
+                rightMotorFront.setPower(gamepad1.left_stick_y);
+                rightMotorBack.setPower(gamepad1.left_stick_y);
             }
             else  {
                 leftMotorFront.setPower(0);
@@ -253,6 +248,54 @@ public class TeleOpTest extends LinearOpMode {
             else {
                 scoringMotor.setPower(0);
             }
+
+            //Experimental flipper encoder code
+/*
+
+            if(gamepad2.dpad_right) {
+                final int fire;
+
+                fire = scoringMotor.getCurrentPosition() - 2;
+
+                scoringMotor.setTargetPosition(fire);
+
+                scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                scoringMotor.setPower(-1.0);
+
+                while(opModeIsActive() && scoringMotor.isBusy()) {
+                    telemetry.addData("Firing: ", scoringMotor.isBusy());
+                    telemetry.update();
+                }
+
+                scoringMotor.setPower(0);
+
+                scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(1000);
+
+                final int reload;
+
+                reload = 0;
+
+                scoringMotor.setTargetPosition(reload);
+
+                scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                scoringMotor.setPower(1.0);
+
+                while(opModeIsActive() && scoringMotor.isBusy()) {
+                    telemetry.addData("Reloading: ", scoringMotor.isBusy());
+                    telemetry.update();
+                }
+
+                scoringMotor.setPower(0);
+
+                scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                scoringMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+*/
 
             //Caping Mechanism Code
 

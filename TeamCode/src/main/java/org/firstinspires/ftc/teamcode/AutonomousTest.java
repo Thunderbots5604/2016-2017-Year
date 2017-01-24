@@ -93,16 +93,16 @@ public class AutonomousTest extends LinearOpMode {
         });
 
         //Move forward
-        encoderCalculations(.5, 60.0);
+        encoderCalculations(.25, 60.0);
 
         sleep(5000);
     }
 
     public void encoderCalculations(double speed, double inches) {
-        final int leftFrontTarget;
-        final int leftBackTarget;
-        final int rightFrontTarget;
-        final int rightBackTarget;
+        int leftFrontTarget;
+        int leftBackTarget;
+        int rightFrontTarget;
+        int rightBackTarget;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
@@ -119,10 +119,10 @@ public class AutonomousTest extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            leftFrontTarget = leftMotorFront.getCurrentPosition() + (int) (inches * -47);
-            leftBackTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 47);
-            rightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(inches * 47);
-            rightBackTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -47);
+            leftFrontTarget = leftMotorFront.getCurrentPosition() + (int) (inches * 56);
+            leftBackTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 56);
+            rightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -56);
+            rightBackTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -56);
 
             leftMotorFront.setTargetPosition(leftFrontTarget);
             leftMotorBack.setTargetPosition(leftBackTarget);
@@ -134,9 +134,9 @@ public class AutonomousTest extends LinearOpMode {
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            leftMotorFront.setPower(-speed);
+            leftMotorFront.setPower(speed);
             leftMotorBack.setPower(speed);
-            rightMotorFront.setPower(speed);
+            rightMotorFront.setPower(-speed);
             rightMotorBack.setPower(-speed);
 
             while(opModeIsActive() && leftMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorFront.isBusy() && rightMotorBack.isBusy()) {
@@ -187,8 +187,6 @@ public class AutonomousTest extends LinearOpMode {
         final int leftBackTarget;
         final int rightFrontTarget;
         final int rightBackTarget;
-
-        degrees = degrees - 7;
 
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;

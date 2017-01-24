@@ -12,9 +12,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AutonomousBlue", group="Linear OpMode")
+@Autonomous(name="AutonomousRed", group="Linear OpMode")
 @Disabled
-public class AutonomousTestEncoder extends LinearOpMode {
+public class AutonomousTestEncoderRed extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     static final double WHITE_THRESHOLD = 0.2;
@@ -107,7 +107,7 @@ public class AutonomousTestEncoder extends LinearOpMode {
 
         sleep(1000);
 
-        turningCalculations(.45, 135);
+        turningCalculations(-.45, -135);
 
         sleep(1000);
 
@@ -116,16 +116,17 @@ public class AutonomousTestEncoder extends LinearOpMode {
         sleep(1500);
 
         //If right side of the beacon is red
-        if(colorSensor.blue() > colorSensor.red() + 2) {
+        if(colorSensor.red() > colorSensor.blue() + 2) {
             turningCalculations(-.45, -45);
+
         }
         //If the left side of the beacon is red
         else {
             turningCalculations(.45, 45);
         }
-        encoderCalculations(.25, 4.0);
 
-        turningCalculations(-.45, -90);
+        encoderCalculations(.25, 4.0);
+        turningCalculations(.45, 90);
         //Move foward till white line
         leftMotorFront.setPower(.25);
         leftMotorBack.setPower(.25);
@@ -137,7 +138,7 @@ public class AutonomousTestEncoder extends LinearOpMode {
         }
         sleep(1000);
 
-        turningCalculations(.45, 90);
+        turningCalculations(-.45, -90);
 
         encoderCalculations(-.25, -2.0);
 
@@ -154,7 +155,7 @@ public class AutonomousTestEncoder extends LinearOpMode {
 
         encoderCalculations(.5, 5.0);
         sleep(500);
-        turningCalculations(.45, 45);
+        turningCalculations(-.45, -45);
         sleep(500);
         encoderCalculations(.5, 48.0);
     }
