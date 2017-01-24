@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="TeleOp", group="Linear Opmode")
-public class TeleOpTest extends LinearOpMode {
+@TeleOp(name="TeleOp4Kids", group="Linear Opmode")
+public class KidsDrive extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -25,13 +24,8 @@ public class TeleOpTest extends LinearOpMode {
         DcMotor rightMotorBack = null;
 
         DcMotor sweeper = null;
-
         DcMotor cap = null;
-
         DcMotor scoringMotor = null;
-
-/*        CRServo rightSpin = null;
-        CRServo leftSpin = null;*/
 
         Servo stopper = null;
 
@@ -42,14 +36,8 @@ public class TeleOpTest extends LinearOpMode {
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
 
         sweeper = hardwareMap.dcMotor.get("sweeper");
-
         cap = hardwareMap.dcMotor.get("cap");
-
         scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
-
-/*        rightSpin = hardwareMap.crservo.get("right");
-        leftSpin = hardwareMap.crservo.get("left");*/
-
         stopper = hardwareMap.servo.get("stop");
 
 /*        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
@@ -66,14 +54,6 @@ public class TeleOpTest extends LinearOpMode {
             //Stuff to display for Telemetry
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-/*            telemetry.addData("Half Speed: ", halfSpeed);*/
-/*            te\lemetry.addData("Cap Speed: ", cap.getPower());
-            telemetry.addData("Flip: ", scorin[pgMotor.getCurrentPosition());*/
-            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
-            telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
-            telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
-            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
-            telemetry.addData("Servo Position: ", stopper.getPosition());
             telemetry.update();
 
             //Forward and backward moving method
@@ -152,54 +132,6 @@ public class TeleOpTest extends LinearOpMode {
                 scoringMotor.setPower(0);
             }
 
-            //Experimental flipper encoder code
-/*
-
-            if(gamepad2.dpad_right) {
-                final int fire;
-
-                fire = scoringMotor.getCurrentPosition() - 2;
-
-                scoringMotor.setTargetPosition(fire);
-
-                scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                scoringMotor.setPower(-1.0);
-
-                while(opModeIsActive() && scoringMotor.isBusy()) {
-                    telemetry.addData("Firing: ", scoringMotor.isBusy());
-                    telemetry.update();
-                }
-
-                scoringMotor.setPower(0);
-
-                scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                sleep(1000);
-
-                final int reload;
-
-                reload = 0;
-
-                scoringMotor.setTargetPosition(reload);
-
-                scoringMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                scoringMotor.setPower(1.0);
-
-                while(opModeIsActive() && scoringMotor.isBusy()) {
-                    telemetry.addData("Reloading: ", scoringMotor.isBusy());
-                    telemetry.update();
-                }
-
-                scoringMotor.setPower(0);
-
-                scoringMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                scoringMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            }
-*/
-
             //Caping Mechanism Code
 
             if(gamepad2.left_bumper) {
@@ -211,23 +143,6 @@ public class TeleOpTest extends LinearOpMode {
             else {
                 cap.setPower(0);
             }
-
-            //CRServo Method
-
-/*            if(gamepad2.right_bumper) {
-                rightSpin.setPower(1);
-                leftSpin.setPower(-1);
-            }
-            else if (gamepad2.left_bumper) {
-                rightSpin.setPower(-1);
-                leftSpin.setPower(1);
-            }
-            else {
-                rightSpin.setPower(0);
-                leftSpin.setPower(0);
-            }*/
-
-            //Servo
 
             if(gamepad2.y) {
                 stopper.setPosition(0);

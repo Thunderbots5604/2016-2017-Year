@@ -61,8 +61,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
-@Autonomous(name="Time", group="Pushbot")
+@Disabled
+@Autonomous(name="BallnParkTime", group="Pushbot")
 public class TimeAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
