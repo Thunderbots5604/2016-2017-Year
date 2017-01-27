@@ -41,6 +41,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /*
  *
@@ -55,11 +56,11 @@ import com.qualcomm.robotcore.hardware.LightSensor;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Disabled
-@TeleOp(name = "Sensor: MR Color", group = "Sensor")
+@TeleOp(name = "Sensor Test", group = "Sensor")
 public class SensorMRColor extends LinearOpMode {
 
     LightSensor lightSensor;
+    UltrasonicSensor ultra;
     ColorSensor colorSensor;// Hardware Device Object
 
     static final double     WHITE_THRESHOLD = 0.3;
@@ -88,6 +89,8 @@ public class SensorMRColor extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
 
         lightSensor = hardwareMap.lightSensor.get("sensor_light");
+
+        ultra = hardwareMap.ultrasonicSensor.get("ultra");
 
         // Set the LED in the beginning
         colorSensor.enableLed(bLedOn);
@@ -127,6 +130,7 @@ public class SensorMRColor extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             telemetry.addData("LED", bLedOn ? "On" : "Off");
+            telemetry.addData("Ultrasonic Levels: ", ultra.getUltrasonicLevel());
             telemetry.addData("Clear", colorSensor.alpha());
             telemetry.addData("Red  ", colorSensor.red());
             telemetry.addData("Green", colorSensor.green());
