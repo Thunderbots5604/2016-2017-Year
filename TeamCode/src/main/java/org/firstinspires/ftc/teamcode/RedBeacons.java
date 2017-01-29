@@ -83,15 +83,14 @@ public class RedBeacons extends LinearOpMode {
 
         sleep(500);*/
 
-        leftMotorFront.setPower(.1);
-        leftMotorBack.setPower(.1);
-        rightMotorFront.setPower(-.1);
-        rightMotorBack.setPower(-.1);
-
         //Movee up to the Beacon
         while (opModeIsActive() && (ultra.getUltrasonicLevel() > 9.0)) {
 
             // Display the light level while we are looking for the line
+            leftMotorFront.setPower(-((ultra.getUltrasonicLevel()/128) * .3));
+            leftMotorBack.setPower(-((ultra.getUltrasonicLevel()/128) * .3));
+            rightMotorFront.setPower(((ultra.getUltrasonicLevel()/128) * .3));
+            rightMotorBack.setPower(((ultra.getUltrasonicLevel()/128) * .3));
             telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
             telemetry.update();
         }
