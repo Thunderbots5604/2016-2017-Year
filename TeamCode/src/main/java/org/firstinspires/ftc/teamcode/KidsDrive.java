@@ -58,32 +58,32 @@ public class KidsDrive extends LinearOpMode {
 
             //Forward and backward moving method
             if(gamepad1.left_stick_y != 0 && gamepad1.right_stick_x == 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y);
-                leftMotorBack.setPower(-gamepad1.left_stick_y);
+                leftMotorFront.setPower(-gamepad1.left_stick_y * .35);
+                leftMotorBack.setPower(-gamepad1.left_stick_y * .35);
 
-                rightMotorFront.setPower(gamepad1.left_stick_y);
-                rightMotorBack.setPower(gamepad1.left_stick_y);
+                rightMotorFront.setPower(gamepad1.left_stick_y * .35);
+                rightMotorBack.setPower(gamepad1.left_stick_y * .35);
             }
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x);
-                leftMotorBack.setPower(-gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.right_stick_x * .35);
+                leftMotorBack.setPower(-gamepad1.right_stick_x * .35);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x);
-                rightMotorBack.setPower(-gamepad1.right_stick_x);
+                rightMotorFront.setPower(-gamepad1.right_stick_x * .35);
+                rightMotorBack.setPower(-gamepad1.right_stick_x * .35);
             }
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y == 0) {
-                leftMotorFront.setPower(-gamepad1.right_stick_x);
-                leftMotorBack.setPower(-gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.right_stick_x * .35);
+                leftMotorBack.setPower(-gamepad1.right_stick_x * .35);
 
-                rightMotorFront.setPower(-gamepad1.right_stick_x);
-                rightMotorBack.setPower(-gamepad1.right_stick_x);
+                rightMotorFront.setPower(-gamepad1.right_stick_x * .35);
+                rightMotorBack.setPower(-gamepad1.right_stick_x * .35);
             }
 
             //Swing turn methods
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y > 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y);
-                leftMotorBack.setPower(-gamepad1.left_stick_y);
+                leftMotorFront.setPower(-gamepad1.left_stick_y * .35);
+                leftMotorBack.setPower(-gamepad1.left_stick_y * .35);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
@@ -92,12 +92,12 @@ public class KidsDrive extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(gamepad1.left_stick_y);
-                rightMotorBack.setPower(gamepad1.left_stick_y);
+                rightMotorFront.setPower(gamepad1.left_stick_y * .35);
+                rightMotorBack.setPower(gamepad1.left_stick_y * .35);
             }
             else if(gamepad1.right_stick_x < 0 && gamepad1.left_stick_y < 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y);
-                leftMotorBack.setPower(-gamepad1.right_stick_x);
+                leftMotorFront.setPower(-gamepad1.left_stick_y * .35);
+                leftMotorBack.setPower(-gamepad1.right_stick_x * .35);
 
                 rightMotorFront.setPower(0);
                 rightMotorBack.setPower(0);
@@ -106,8 +106,8 @@ public class KidsDrive extends LinearOpMode {
                 leftMotorFront.setPower(0);
                 leftMotorBack.setPower(0);
 
-                rightMotorFront.setPower(gamepad1.left_stick_y);
-                rightMotorBack.setPower(gamepad1.left_stick_y);
+                rightMotorFront.setPower(gamepad1.left_stick_y * .35);
+                rightMotorBack.setPower(gamepad1.left_stick_y * .35);
             }
 
             //Sweeper Code

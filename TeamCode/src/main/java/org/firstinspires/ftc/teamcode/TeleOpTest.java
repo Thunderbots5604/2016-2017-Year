@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.lang.Math.*;
 
 
 @TeleOp(name="TeleOp", group="Linear Opmode")
@@ -78,11 +79,11 @@ public class TeleOpTest extends LinearOpMode {
 
             //Forward and backward moving method
             if(gamepad1.left_stick_y != 0 && gamepad1.right_stick_x == 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y);
-                leftMotorBack.setPower(-gamepad1.left_stick_y);
+                leftMotorFront.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
+                leftMotorBack.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
 
-                rightMotorFront.setPower(gamepad1.left_stick_y);
-                rightMotorBack.setPower(gamepad1.left_stick_y);
+                rightMotorFront.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
+                rightMotorBack.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
             }
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0) {
