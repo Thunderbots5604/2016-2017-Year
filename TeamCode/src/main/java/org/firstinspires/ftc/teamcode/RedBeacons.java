@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="RedBeacons", group="Autonomous")
@@ -19,6 +20,7 @@ public class RedBeacons extends LinearOpMode {
 
     LightSensor light = null;
     ColorSensor color = null;
+    UltrasonicSensor ultra = null;
 
     static final double     WHITE_THRESHOLD = 0.3;
 
@@ -32,6 +34,7 @@ public class RedBeacons extends LinearOpMode {
 
         light = hardwareMap.lightSensor.get("light");
         color = hardwareMap.colorSensor.get("color");
+        ultra = hardwareMap.ultrasonicSensor.get("ultra");
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -56,7 +59,7 @@ public class RedBeacons extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        leftMotorFront.setPower(1);
+/*        leftMotorFront.setPower(1);
         leftMotorBack.setPower(1);
         rightMotorFront.setPower(-1);
         rightMotorBack.setPower(-1);
@@ -78,11 +81,25 @@ public class RedBeacons extends LinearOpMode {
 
         //Turning Method
 
-        sleep(500);
+        sleep(500);*/
 
-        //Move up to Beacon
+        leftMotorFront.setPower(.1);
+        leftMotorBack.setPower(.1);
+        rightMotorFront.setPower(-.1);
+        rightMotorBack.setPower(-.1);
 
-        encoderDrive(-.35, -10.0);
+        //Movee up to the Beacon
+        while (opModeIsActive() && (ultra.getUltrasonicLevel() > 9.0)) {
+
+            // Display the light level while we are looking for the line
+            telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
+            telemetry.update();
+        }
+
+        leftMotorFront.setPower(0);
+        leftMotorBack.setPower(0);
+        rightMotorFront.setPower(0);
+        rightMotorBack.setPower(0);
 
         sleep(1000);
 
@@ -100,7 +117,7 @@ public class RedBeacons extends LinearOpMode {
         }
 
         sleep(5000);
-
+/*
         //Turning Method
 
         sleep(500);
@@ -129,9 +146,23 @@ public class RedBeacons extends LinearOpMode {
 
         //Turning Method
 
-        //Move up to Beacon
+        leftMotorFront.setPower(.1);
+        leftMotorBack.setPower(.1);
+        rightMotorFront.setPower(-.1);
+        rightMotorBack.setPower(-.1);
 
-        encoderDrive(-.35, -10.0);
+        //Movee up to the Beacon
+        while (opModeIsActive() && (ultra.getUltrasonicLevel() < 9)) {
+
+            // Display the light level while we are looking for the line
+            telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
+            telemetry.update();
+        }
+
+        leftMotorFront.setPower(0);
+        leftMotorBack.setPower(0);
+        rightMotorFront.setPower(0);
+        rightMotorBack.setPower(0);
 
         sleep(1000);
 
@@ -146,7 +177,7 @@ public class RedBeacons extends LinearOpMode {
         else {
             telemetry.addLine("Rip nvm");
             telemetry.update();
-        }
+        }*/
     }
 
 /*     *  Method to perfmorm a relative move, based on encoder counts.

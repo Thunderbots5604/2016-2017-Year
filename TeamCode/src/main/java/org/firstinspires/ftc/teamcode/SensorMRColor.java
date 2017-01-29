@@ -42,6 +42,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
@@ -62,9 +63,11 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 public class SensorMRColor extends LinearOpMode {
 
     LightSensor lightSensor;
+    LightSensor lightSensor2;
     GyroSensor gyro;
     TouchSensor touch;
     UltrasonicSensor ultra;
+    OpticalDistanceSensor ods;
     ColorSensor colorSensor;// Hardware Device Object
 
     static final double     WHITE_THRESHOLD = 0.3;
@@ -88,12 +91,13 @@ public class SensorMRColor extends LinearOpMode {
 
         // bLedOn represents the state of the LED.
         boolean bLedOn = true;
-        gyro.calibrate();
 
         // get a reference to our ColorSensor object.
         colorSensor = hardwareMap.colorSensor.get("color");
 
         lightSensor = hardwareMap.lightSensor.get("sensor_light");
+        lightSensor2 = hardwareMap.lightSensor.get("light");
+        ods = hardwareMap.opticalDistanceSensor.get("ods");
 
         ultra = hardwareMap.ultrasonicSensor.get("ultra");
 
@@ -112,6 +116,8 @@ public class SensorMRColor extends LinearOpMode {
         // while the op mode is active, loop and read the RGB data.
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
+
+            gyro.calibrate();
 
             // check the status of the x button on either gamepad.
             bCurrState = gamepad1.x;
@@ -134,12 +140,13 @@ public class SensorMRColor extends LinearOpMode {
                     telemetry.addData("No White", lightSensor.getLightDetected());
                 }
                 else if (lightSensor.getLightDetected() > WHITE_THRESHOLD) {
-                    telemetry.addData("is white", lightSensor.getLightDetected());
+                    telemetry.addData("Is white", lightSensor.getLightDetected());
                 }
 
             // send the info back to driver station using telemetry function.
-            telemetry.addData("LED", bLedOn ? "On" : "Off");
             telemetry.addData("Ultrasonic Levels: ", ultra.getUltrasonicLevel());
+            telemetry.addData("Light Sensor 2: ", lightSensor2.getLightDetected());
+            telemetry.addData("ODS: ", ods.getLightDetected());
             telemetry.addData("Clear", colorSensor.alpha());
             telemetry.addData("Red  ", colorSensor.red());
             telemetry.addData("Green", colorSensor.green());
