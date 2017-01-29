@@ -65,7 +65,6 @@ public class TeleOpTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             //Stuff to display for Telemetry
-
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Half Speed: ", halfSpeed);*/
 /*            te\lemetry.addData("Cap Speed: ", cap.getPower());

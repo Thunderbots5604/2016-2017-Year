@@ -40,7 +40,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /*
@@ -60,6 +62,8 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 public class SensorMRColor extends LinearOpMode {
 
     LightSensor lightSensor;
+    GyroSensor gyro;
+    TouchSensor touch;
     UltrasonicSensor ultra;
     ColorSensor colorSensor;// Hardware Device Object
 
@@ -84,6 +88,7 @@ public class SensorMRColor extends LinearOpMode {
 
         // bLedOn represents the state of the LED.
         boolean bLedOn = true;
+        gyro.calibrate();
 
         // get a reference to our ColorSensor object.
         colorSensor = hardwareMap.colorSensor.get("color");
@@ -91,6 +96,10 @@ public class SensorMRColor extends LinearOpMode {
         lightSensor = hardwareMap.lightSensor.get("sensor_light");
 
         ultra = hardwareMap.ultrasonicSensor.get("ultra");
+
+        gyro = hardwareMap.gyroSensor.get("gyro");
+
+        touch = hardwareMap.touchSensor.get("touch");
 
         // Set the LED in the beginning
         colorSensor.enableLed(bLedOn);
@@ -136,6 +145,10 @@ public class SensorMRColor extends LinearOpMode {
             telemetry.addData("Green", colorSensor.green());
             telemetry.addData("Blue ", colorSensor.blue());
             telemetry.addData("Hue", hsvValues[0]);
+            telemetry.addData("Touch ", touch.isPressed());
+            telemetry.addData("X ", gyro.rawX());
+            telemetry.addData("Y ", gyro.rawY());
+            telemetry.addData("Z ", gyro.rawZ());
             telemetry.update();
         }
     }
