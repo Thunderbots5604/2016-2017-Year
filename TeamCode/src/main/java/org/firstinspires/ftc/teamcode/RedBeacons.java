@@ -100,7 +100,7 @@ public class RedBeacons extends LinearOpMode {
         rightMotorFront.setPower(0);
         rightMotorBack.setPower(0);
 
-        sleep(1000);
+        sleep(2000);
 
         if (color.red() > color.blue() + 3) {
             telemetry.addLine("Right side is red");
