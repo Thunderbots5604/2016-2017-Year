@@ -62,14 +62,11 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @Disabled
-@Autonomous(name="BallnParkTime", group="Pushbot")
+@Autonomous(name="BallnParkTime", group="Autonomous")
 public class TimeAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
-
-
-    static final double     FORWARD_SPEED = 0.6;
 
     @Override
     public void runOpMode() {
@@ -77,54 +74,18 @@ public class TimeAutonomous extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
-        boolean halfSpeed = false;
-
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
 
         DcMotor rightMotorFront = null;
         DcMotor rightMotorBack = null;
 
-        DcMotor sweeper = null;
-
-        DcMotor strafe = null;
-
-        DcMotor cap = null;
-
-        DcMotor scoringMotor = null;
-
-/*        CRServo rightSpin = null;
-        CRServo leftSpin = null;*/
-
-        Servo stopper = null;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
 
         rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
-
-        sweeper = hardwareMap.dcMotor.get("sweeper");
-
-        strafe = hardwareMap.dcMotor.get("strafe");
-
-        cap = hardwareMap.dcMotor.get("cap");
-
-        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
-
-/*        rightSpin = hardwareMap.crservo.get("right");
-        leftSpin = hardwareMap.crservo.get("left");*/
-
-        stopper = hardwareMap.servo.get("stop");
-
-        double leftStarting = 0;
-        double rightStarting = 1;
-
-/*        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorFront.setDirection(DcMotor.Direction.REVERSE);
-        leftMotorBack.setDirection(DcMotor.Direction.REVERSE);*/
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -136,10 +97,10 @@ public class TimeAutonomous extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        leftMotorFront.setPower(FORWARD_SPEED);
-        leftMotorBack.setPower(FORWARD_SPEED);
-        rightMotorFront.setPower(-FORWARD_SPEED);
-        rightMotorBack.setPower(-FORWARD_SPEED);
+        leftMotorFront.setPower(-.1);
+        leftMotorBack.setPower(-.1);
+        rightMotorFront.setPower(.1);
+        rightMotorBack.setPower(.1);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.5)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());

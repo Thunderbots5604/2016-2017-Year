@@ -43,12 +43,12 @@ public class RedBeacons extends LinearOpMode {
         light.enableLed(true);
         color.enableLed(false);
 
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+/*        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
 
         leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
@@ -82,16 +82,17 @@ public class RedBeacons extends LinearOpMode {
         //Turning Method
 
         sleep(500);*/
-
         //Movee up to the Beacon
         while (opModeIsActive() && (ultra.getUltrasonicLevel() > 9.0)) {
 
             // Display the light level while we are looking for the line
-            leftMotorFront.setPower(-((ultra.getUltrasonicLevel()/128) * .3));
-            leftMotorBack.setPower(-((ultra.getUltrasonicLevel()/128) * .3));
-            rightMotorFront.setPower(((ultra.getUltrasonicLevel()/128) * .3));
-            rightMotorBack.setPower(((ultra.getUltrasonicLevel()/128) * .3));
+            leftMotorFront.setPower(-.2);
+            leftMotorBack.setPower(-.2);
+            rightMotorFront.setPower(.2);
+            rightMotorBack.setPower(.2);
             telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
+            telemetry.addData("Left Motor: ", leftMotorBack.getPower());
+            telemetry.addData("Right Motor: ", rightMotorBack.getPower());
             telemetry.update();
         }
 
