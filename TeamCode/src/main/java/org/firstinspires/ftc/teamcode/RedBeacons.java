@@ -101,17 +101,21 @@ public class RedBeacons extends LinearOpMode {
         rightMotorFront.setPower(0);
         rightMotorBack.setPower(0);*/
 
-        //turnDrive(.35, -90);
+/*        turnDrive(-.45, -360);*/
 
-        sleep(500);
+        encoderDrive(.5, 25);
+
+/*        turnDrive(.75, 360);*/
+
+ /*       sleep(500);
         //Movee up to the Beacon
-        while (opModeIsActive() && (ultra.getUltrasonicLevel() > 9.0)) {
+        while (opModeIsActive() && (ultra.getUltrasonicLevel() > 11.0)) {
 
             // Display the light level while we are looking for the line
-            leftMotorFront.setPower(-.15);
-            leftMotorBack.setPower(-.15);
-            rightMotorFront.setPower(.15);
-            rightMotorBack.setPower(.15);
+            leftMotorFront.setPower(-.25 * ultra.getUltrasonicLevel()/30);
+            leftMotorBack.setPower(-.25 *ultra.getUltrasonicLevel()/30);
+            rightMotorFront.setPower(.25 * ultra.getUltrasonicLevel()/30);
+            rightMotorBack.setPower(.25 * ultra.getUltrasonicLevel()/30);
             telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
             telemetry.addData("Left Motor: ", leftMotorBack.getPower());
             telemetry.addData("Right Motor: ", rightMotorBack.getPower());
@@ -126,41 +130,32 @@ public class RedBeacons extends LinearOpMode {
         sleep(2000);
 
         if (color.red() > color.blue() + 3) {
-            telemetry.addLine("Right side is red");
+            telemetry.addLine("Right Red");
+            telemetry.addData("Red: ", color.red());
+            telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            turnDrive(.15, 30);
-            sleep(100);
-            turnDrive(-.15, 20);
-            sleep(100);
-            turnDrive(.15, 30);
-            sleep(100);
-            turnDrive(-.15, 20);
         }
         else if (color.red() < color.blue() + 3) {
-            telemetry.addLine("Left side is red");
+            telemetry.addLine("Left Red");
+            telemetry.addData("Red: ", color.red());
+            telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            turnDrive(-.15, 30);
-            sleep(100);
-            turnDrive(.15, 20);
-            sleep(100);
-            turnDrive(-.15, 30);
-            sleep(100);
-            turnDrive(.15, 20);
         }
         else {
             telemetry.addLine("Rip nvm");
+            telemetry.addData("Red: ", color.red());
+            telemetry.addData("Blue: ", color.blue());
             telemetry.update();
         }
 
-/*        sleep(5000);
         //Moving Back
         while (opModeIsActive() && (ultra.getUltrasonicLevel() < 50.0)) {
 
             // Display the light level while we are looking for the line
-            leftMotorFront.setPower(.1);
-            leftMotorBack.setPower(.1);
-            rightMotorFront.setPower(-.1);
-            rightMotorBack.setPower(-.1);
+            leftMotorFront.setPower(.2);
+            leftMotorBack.setPower(.2);
+            rightMotorFront.setPower(-.2);
+            rightMotorBack.setPower(-.2);
             telemetry.addData("Ultrasanic level",  ultra.getUltrasonicLevel());
             telemetry.addData("Left Motor: ", leftMotorBack.getPower());
             telemetry.addData("Right Motor: ", rightMotorBack.getPower());
@@ -293,6 +288,9 @@ public class RedBeacons extends LinearOpMode {
         int newLeftTarget;
         int newRightTarget;
 
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -306,8 +304,8 @@ public class RedBeacons extends LinearOpMode {
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            leftMotorBack.setPower(speed);
-            rightMotorBack.setPower(-speed);
+            leftMotorBack.setPower(Math.abs(speed));
+            rightMotorBack.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() &&
@@ -331,12 +329,17 @@ public class RedBeacons extends LinearOpMode {
             rightMotorFront.setPower(0);
 
             //  sleep(250);   // optional pause after each move
+            leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
     public void turnDrive(double speed,
                              double degrees) {
         int newLeftTarget;
         int newRightTarget;
+
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -376,6 +379,8 @@ public class RedBeacons extends LinearOpMode {
             rightMotorFront.setPower(0);
 
             //  sleep(250);   // optional pause after each move
+            leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
     public void swingRightDrive(double speed,

@@ -71,12 +71,12 @@ public class TeleOpTest extends LinearOpMode {
             //Stuff to display for Telemetry
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 /*            telemetry.addData("Half Speed: ", halfSpeed);*/
-/*            te\lemetry.addData("Cap Speed: ", cap.getPower());
-            telemetry.addData("Flip: ", scorin[pgMotor.getCurrentPosition());*/
-            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
+/*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
-            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
+            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
+            telemetry.addData("Servo 1: ", stopper1.getPosition());
+            telemetry.addData("Servo 2: ", stopper2.getPosition());
             telemetry.update();
 
             //Forward and backward moving method
@@ -156,6 +156,12 @@ public class TeleOpTest extends LinearOpMode {
                 scoringMotor.setPower(1.0);
             }
             else if (gamepad2.dpad_down) {
+                scoringMotor.setPower(-1.0);
+            }
+            else if(gamepad1.dpad_up) {
+                scoringMotor.setPower(1.0);
+            }
+            else if (gamepad1.dpad_down) {
                 scoringMotor.setPower(-1.0);
             }
             else {
@@ -243,14 +249,14 @@ public class TeleOpTest extends LinearOpMode {
             //Servo
 
             if(gamepad2.b) {
-                stopper1.setPosition(0);
+                stopper1.setPosition(.3);
             }
             else if(gamepad2.a) {
-                stopper2.setPosition(.4);
+                stopper2.setPosition(.75);
             }
             else {
-                stopper1.setPosition(.4);
-                stopper2.setPosition(0);
+                stopper1.setPosition(.75);
+                stopper2.setPosition(.3);
             }
         }
     }
