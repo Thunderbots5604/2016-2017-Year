@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+@Disabled
 @TeleOp(name="TeleOp4Kids", group="Linear Opmode")
 public class KidsDrive extends LinearOpMode {
 
@@ -108,6 +109,14 @@ public class KidsDrive extends LinearOpMode {
 
                 rightMotorFront.setPower(gamepad1.left_stick_y * .35);
                 rightMotorBack.setPower(gamepad1.left_stick_y * .35);
+            }
+
+            else {
+                leftMotorFront.setPower(0);
+                leftMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+                rightMotorBack.setPower(0);
+
             }
 
             //Sweeper Code

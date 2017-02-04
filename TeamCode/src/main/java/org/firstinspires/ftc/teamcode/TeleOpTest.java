@@ -27,14 +27,16 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor sweeper = null;
 
-        DcMotor cap = null;
+        DcMotor cap1 = null;
+        DcMotor cap2 = null;
 
         DcMotor scoringMotor = null;
 
 /*        CRServo rightSpin = null;
         CRServo leftSpin = null;*/
 
-        Servo stopper = null;
+        Servo stopper1 = null;
+        Servo stopper2 = null;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
@@ -44,14 +46,16 @@ public class TeleOpTest extends LinearOpMode {
 
         sweeper = hardwareMap.dcMotor.get("sweeper");
 
-        cap = hardwareMap.dcMotor.get("cap");
+        cap1 = hardwareMap.dcMotor.get("cap1");
+        cap2 = hardwareMap.dcMotor.get("cap2");
 
         scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
 
 /*        rightSpin = hardwareMap.crservo.get("right");
         leftSpin = hardwareMap.crservo.get("left");*/
 
-        stopper = hardwareMap.servo.get("stop");
+        stopper1 = hardwareMap.servo.get("stop1");
+        stopper2 = hardwareMap.servo.get("stop2");
 
 /*        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
         rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
@@ -73,16 +77,15 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
             telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
-            telemetry.addData("Servo Position: ", stopper.getPosition());
             telemetry.update();
 
             //Forward and backward moving method
             if(gamepad1.left_stick_y != 0 && gamepad1.right_stick_x == 0) {
-                leftMotorFront.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
-                leftMotorBack.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
+                leftMotorFront.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y) * Math.abs(gamepad1.left_stick_y));
+                leftMotorBack.setPower(-gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y) * Math.abs(gamepad1.left_stick_y));
 
-                rightMotorFront.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
-                rightMotorBack.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y));
+                rightMotorFront.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y) * Math.abs(gamepad1.left_stick_y));
+                rightMotorBack.setPower(gamepad1.left_stick_y * Math.abs(gamepad1.left_stick_y) * Math.abs(gamepad1.left_stick_y));
             }
             //Turning methods in TeleOp
             else if(gamepad1.right_stick_x > 0 && gamepad1.left_stick_y == 0) {
@@ -128,6 +131,13 @@ public class TeleOpTest extends LinearOpMode {
 
                 rightMotorFront.setPower(gamepad1.left_stick_y);
                 rightMotorBack.setPower(gamepad1.left_stick_y);
+            }
+            else {
+                leftMotorFront.setPower(0);
+                leftMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+                rightMotorBack.setPower(0);
+
             }
 
             //Sweeper Code
@@ -203,13 +213,16 @@ public class TeleOpTest extends LinearOpMode {
             //Caping Mechanism Code
 
             if(gamepad2.left_bumper) {
-                cap.setPower(1);
+                cap1.setPower(1);
+                cap2.setPower(-1);
             }
             else if(gamepad2.right_bumper) {
-                cap.setPower(-1);
+                cap1.setPower(-1);
+                cap2.setPower(1);
             }
             else {
-                cap.setPower(0);
+                cap1.setPower(0);
+                cap2.setPower(0);
             }
 
             //CRServo Method
@@ -229,11 +242,15 @@ public class TeleOpTest extends LinearOpMode {
 
             //Servo
 
-            if(gamepad2.y) {
-                stopper.setPosition(0);
+            if(gamepad2.b) {
+                stopper1.setPosition(0);
             }
             else if(gamepad2.a) {
-                stopper.setPosition(.4);
+                stopper2.setPosition(.4);
+            }
+            else {
+                stopper1.setPosition(.4);
+                stopper2.setPosition(0);
             }
         }
     }
