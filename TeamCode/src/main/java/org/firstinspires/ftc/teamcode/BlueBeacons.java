@@ -86,17 +86,17 @@ public class BlueBeacons extends LinearOpMode {
 
         //Turning until line
 
-        leftMotorFront.setPower(-.65);
+/*        leftMotorFront.setPower(-.65);
         leftMotorBack.setPower(-.65);
         rightMotorFront.setPower(-.65);
         rightMotorBack.setPower(-.65);
 
-/*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD) && (lightSensor2.getLightDetected() < WHITE_THRESHOLD)) {
+*//*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD) && (lightSensor2.getLightDetected() < WHITE_THRESHOLD)) {
             telemetry.addLine("Aligning with line");
             telemetry.addData("Light Sensor 1: ", light.getLightDetected());
             telemetry.addData("Light Sensor 2: ", lightSensor2.getLightDetected());
             telemetry.update();
-        }*/
+        }*//*
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < .9)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -106,7 +106,9 @@ public class BlueBeacons extends LinearOpMode {
         leftMotorFront.setPower(0);
         leftMotorBack.setPower(0);
         rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);
+        rightMotorBack.setPower(0);*/
+
+        turnDrive(.75, 45);
 
         sleep(500);
         //Movee up to the Beacon
@@ -135,40 +137,14 @@ public class BlueBeacons extends LinearOpMode {
             telemetry.addData("Red: ", color.red());
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            leftMotorFront.setPower(-.85);
-            leftMotorBack.setPower(-.85);
-            rightMotorFront.setPower(-.85);
-            rightMotorBack.setPower(-.85);
-            sleep(1000);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.55)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            leftMotorFront.setPower(0);
-            leftMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
+            turnDrive(.75, 15);
         }
         else if (color.red() < color.blue() + 3) {
             telemetry.addLine("Left Red");
             telemetry.addData("Red: ", color.red());
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            leftMotorFront.setPower(.85);
-            leftMotorBack.setPower(.85);
-            rightMotorFront.setPower(.85);
-            rightMotorBack.setPower(.85);
-            sleep(1000);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.55)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            leftMotorFront.setPower(0);
-            leftMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
+            turnDrive(-.75, -15);
         }
         else {
             telemetry.addLine("Rip nvm");
@@ -198,38 +174,8 @@ public class BlueBeacons extends LinearOpMode {
         rightMotorFront.setPower(0);
         rightMotorBack.setPower(0);
 
-        leftMotorFront.setPower(.25);
-        leftMotorBack.setPower(.25);
-        rightMotorFront.setPower(-.25);
-        rightMotorBack.setPower(-.25);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.5)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        leftMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);
-
         //Turning Method
-/*
-        leftMotorFront.setPower(.65);
-        leftMotorBack.setPower(.65);
-        rightMotorFront.setPower(.65);
-        rightMotorBack.setPower(.65);
-
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.6)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        leftMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);
-
+        turnDrive(-.75, -90);
 
         leftMotorFront.setPower(-.2);
         leftMotorBack.setPower(-.2);
@@ -270,29 +216,12 @@ public class BlueBeacons extends LinearOpMode {
 
         //Turning until line
 
+        turnDrive(.75,90);
+
         leftMotorFront.setPower(-.65);
         leftMotorBack.setPower(-.65);
         rightMotorFront.setPower(-.65);
         rightMotorBack.setPower(-.65);
-
-*/
-/*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD) && (lightSensor2.getLightDetected() < WHITE_THRESHOLD)) {
-            telemetry.addLine("Aligning with line");
-            telemetry.addData("Light Sensor 1: ", light.getLightDetected());
-            telemetry.addData("Light Sensor 2: ", lightSensor2.getLightDetected());
-            telemetry.update();
-        }*//*
-
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.65)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-        leftMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);
 
         sleep(500);
         //Movee up to the Beacon
@@ -317,44 +246,18 @@ public class BlueBeacons extends LinearOpMode {
         sleep(1000);
 
         if (color.red() > color.blue() + 3) {
-            telemetry.addLine("Left Blue");
+            telemetry.addLine("Right Red");
             telemetry.addData("Red: ", color.red());
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            leftMotorFront.setPower(-.85);
-            leftMotorBack.setPower(-.85);
-            rightMotorFront.setPower(-.85);
-            rightMotorBack.setPower(-.85);
-            sleep(1000);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.55)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            leftMotorFront.setPower(0);
-            leftMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
+            turnDrive(.75, 15);
         }
         else if (color.red() < color.blue() + 3) {
-            telemetry.addLine("Right Blue");
+            telemetry.addLine("Left Red");
             telemetry.addData("Red: ", color.red());
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
-            leftMotorFront.setPower(.85);
-            leftMotorBack.setPower(.85);
-            rightMotorFront.setPower(.85);
-            rightMotorBack.setPower(.85);
-            sleep(1000);
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.55)) {
-                telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            leftMotorFront.setPower(0);
-            leftMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
+            turnDrive(-.75, -15);
         }
         else {
             telemetry.addLine("Rip nvm");
@@ -381,20 +284,9 @@ public class BlueBeacons extends LinearOpMode {
         rightMotorFront.setPower(0);
         rightMotorBack.setPower(0);
 
-        leftMotorFront.setPower(.65);
-        leftMotorBack.setPower(.65);
-        rightMotorFront.setPower(.65);
-        rightMotorBack.setPower(.65);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.6)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        leftMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);
-*/
+        turnDrive(.75, 135);
+
+        encoderDrive(.5, 55);
     }
 
     public void encoderDrive(double speed,
@@ -423,8 +315,8 @@ public class BlueBeacons extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = leftMotorFront.getCurrentPosition() + (int)(inches * 45);
-            newRightTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -45);
+            newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 45);
+            newRightTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -45);
             leftMotorBack.setTargetPosition(newLeftTarget);
             rightMotorBack.setTargetPosition(newRightTarget);
 
@@ -484,8 +376,8 @@ public class BlueBeacons extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = leftMotorFront.getCurrentPosition() + (int)(degrees * 9);
-            newRightTarget = rightMotorFront.getCurrentPosition() + (int)(degrees * 9);
+            newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(degrees * 9);
+            newRightTarget = rightMotorBack.getCurrentPosition() + (int)(degrees * 9);
 
             leftMotorBack.setTargetPosition(newLeftTarget);
             rightMotorBack.setTargetPosition(newRightTarget);
@@ -494,8 +386,8 @@ public class BlueBeacons extends LinearOpMode {
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            leftMotorBack.setPower(speed);
-            rightMotorBack.setPower(speed);
+            leftMotorBack.setPower(Math.abs(speed));
+            rightMotorBack.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (leftMotorBack.isBusy() && rightMotorBack.isBusy()) {
