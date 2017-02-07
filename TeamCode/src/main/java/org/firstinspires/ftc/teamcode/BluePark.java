@@ -74,9 +74,6 @@ public class BluePark extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
-        boolean halfSpeed = false;
-
         DcMotor leftMotorFront = null;
         DcMotor leftMotorBack = null;
 
@@ -85,38 +82,11 @@ public class BluePark extends LinearOpMode {
 
         DcMotor sweeper = null;
 
-        DcMotor strafe = null;
-
-        DcMotor cap = null;
-
-        DcMotor scoringMotor = null;
-
-/*        CRServo rightSpin = null;
-        CRServo leftSpin = null;*/
-
-        Servo stopper = null;
-
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
 
         rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
         rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
-
-        sweeper = hardwareMap.dcMotor.get("sweeper");
-
-        strafe = hardwareMap.dcMotor.get("strafe");
-
-        cap = hardwareMap.dcMotor.get("cap");
-
-        scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
-
-/*        rightSpin = hardwareMap.crservo.get("right");
-        leftSpin = hardwareMap.crservo.get("left");*/
-
-        stopper = hardwareMap.servo.get("stop");
-
-        double leftStarting = 0;
-        double rightStarting = 1;
 
 /*        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
         rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
@@ -138,10 +108,26 @@ public class BluePark extends LinearOpMode {
         rightMotorFront.setPower(-FORWARD_SPEED);
         rightMotorBack.setPower(-FORWARD_SPEED);
         runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        leftMotorFront.setPower(0);
+        leftMotorBack.setPower(0);
+        rightMotorFront.setPower(0);
+        rightMotorBack.setPower(0);
+
+        leftMotorBack.setPower(FORWARD_SPEED);
+        leftMotorBack.setPower(FORWARD_SPEED);
+        rightMotorBack.setPower(-FORWARD_SPEED);
+        rightMotorFront.setPower(-FORWARD_SPEED);
+        runtime.reset();
+
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
         leftMotorFront.setPower(0);
         leftMotorBack.setPower(0);
         rightMotorFront.setPower(0);

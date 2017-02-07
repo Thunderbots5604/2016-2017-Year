@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.Math.*;
 
@@ -32,11 +35,17 @@ public class TeleOpTest extends LinearOpMode {
 
         DcMotor scoringMotor = null;
 
+        OpticalDistanceSensor ods;
+
+        UltrasonicSensor ultra;
+
 /*        CRServo rightSpin = null;
         CRServo leftSpin = null;*/
 
         Servo stopper1 = null;
         Servo stopper2 = null;
+
+        TouchSensor touch;
 
         leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
         leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
@@ -51,11 +60,17 @@ public class TeleOpTest extends LinearOpMode {
 
         scoringMotor = hardwareMap.dcMotor.get("scoring_motor");
 
+        ods = hardwareMap.opticalDistanceSensor.get("ods");
+
 /*        rightSpin = hardwareMap.crservo.get("right");
         leftSpin = hardwareMap.crservo.get("left");*/
 
         stopper1 = hardwareMap.servo.get("stop1");
         stopper2 = hardwareMap.servo.get("stop2");
+
+        ultra = hardwareMap.ultrasonicSensor.get("ultra");
+
+        touch = hardwareMap.touchSensor.get("touch");
 
 /*        rightMotorFront.setDirection(DcMotor.Direction.REVERSE);
         rightMotorBack.setDirection(DcMotor.Direction.REVERSE);
@@ -70,6 +85,11 @@ public class TeleOpTest extends LinearOpMode {
 
             //Stuff to display for Telemetry
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Ultrasonic: ", ultra.getUltrasonicLevel());
+            telemetry.addData("Left Motor Back:  ", leftMotorBack.getPower());
+            telemetry.addData("Left Motor Front: ", leftMotorFront.getPower());
+            telemetry.addData("Right Motor Back: ", rightMotorBack.getPower());
+            telemetry.addData("Right Motor Front: ", rightMotorFront.getPower());
 /*            telemetry.addData("Half Speed: ", halfSpeed);*/
 /*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
@@ -77,6 +97,7 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
             telemetry.addData("Servo 1: ", stopper1.getPosition());
             telemetry.addData("Servo 2: ", stopper2.getPosition());
+            telemetry.addData("Is flipper at the end: ", touch.isPressed());
             telemetry.update();
 
             //Forward and backward moving method
@@ -155,13 +176,19 @@ public class TeleOpTest extends LinearOpMode {
             if(gamepad2.dpad_up) {
                 scoringMotor.setPower(1.0);
             }
-            else if (gamepad2.dpad_down) {
+            else if (gamepad2.dpad_down && touch.isPressed() == false) {
+/*                while (touch.isPressed() == false) {
+                    scoringMotor.setPower(-1.0);
+                }*/
                 scoringMotor.setPower(-1.0);
             }
             else if(gamepad1.dpad_up) {
                 scoringMotor.setPower(1.0);
             }
-            else if (gamepad1.dpad_down) {
+            else if (gamepad1.dpad_down && touch.isPressed() == false) {
+/*                while (touch.isPressed() == false) {
+                    scoringMotor.setPower(-1.0);
+                }*/
                 scoringMotor.setPower(-1.0);
             }
             else {
@@ -248,12 +275,20 @@ public class TeleOpTest extends LinearOpMode {
 
             //Servo
 
+            //.015
+
             if(gamepad2.b) {
                 stopper1.setPosition(.3);
             }
             else if(gamepad2.a) {
                 stopper2.setPosition(.75);
             }
+/*            else if(ods.getLightDetected() > .015) {
+                stopper2.setPosition(.75);
+                stopper1.setPosition(.3);
+                sleep(100);
+                stopper1.setPosition(.75);
+            }*/
             else {
                 stopper1.setPosition(.75);
                 stopper2.setPosition(.3);

@@ -61,7 +61,6 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Disabled
 @Autonomous(name="BallnParkTime", group="Autonomous")
 public class TimeAutonomous extends LinearOpMode {
 
@@ -97,10 +96,10 @@ public class TimeAutonomous extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        leftMotorFront.setPower(-.1);
-        leftMotorBack.setPower(-.1);
-        rightMotorFront.setPower(.1);
-        rightMotorBack.setPower(.1);
+        leftMotorFront.setPower(-.2);
+        leftMotorBack.setPower(-.2);
+        rightMotorFront.setPower(.2);
+        rightMotorBack.setPower(.2);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.5)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
