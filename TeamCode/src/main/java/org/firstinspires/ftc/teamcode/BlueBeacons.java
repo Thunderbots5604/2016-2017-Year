@@ -47,13 +47,21 @@ public class BlueBeacons extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        leftMotorFront.setPower(-.2);
+        encoderDrive(.5, 25);
+        sleep(5000);
+        encoderDrive(-.5, -25);
+        sleep(5000);
+        turnDrive(.75, 90);
+        sleep(5000);
+        turnDrive(-.75, 90);
+
+/*        leftMotorFront.setPower(-.2);
         leftMotorBack.setPower(-.2);
         rightMotorFront.setPower(.2);
         rightMotorBack.setPower(.2);
 
-        // run until the white line is seen OR the driver presses STOP;
-        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD)) {
+        // run until the white line is seen OR the driver presses STOP;*/
+/*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD)) {
 
             // Display the light level while we are looking for the line
             telemetry.addData("Light Level",  light.getLightDetected());
@@ -86,17 +94,17 @@ public class BlueBeacons extends LinearOpMode {
 
         //Turning until line
 
-/*        leftMotorFront.setPower(-.65);
+*//*        leftMotorFront.setPower(-.65);
         leftMotorBack.setPower(-.65);
         rightMotorFront.setPower(-.65);
         rightMotorBack.setPower(-.65);
 
-*//*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD) && (lightSensor2.getLightDetected() < WHITE_THRESHOLD)) {
+*//**//*        while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD) && (lightSensor2.getLightDetected() < WHITE_THRESHOLD)) {
             telemetry.addLine("Aligning with line");
             telemetry.addData("Light Sensor 1: ", light.getLightDetected());
             telemetry.addData("Light Sensor 2: ", lightSensor2.getLightDetected());
             telemetry.update();
-        }*//*
+        }*//**//*
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < .9)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -106,7 +114,7 @@ public class BlueBeacons extends LinearOpMode {
         leftMotorFront.setPower(0);
         leftMotorBack.setPower(0);
         rightMotorFront.setPower(0);
-        rightMotorBack.setPower(0);*/
+        rightMotorBack.setPower(0);*//*
 
         turnDrive(.75, 45);
 
@@ -286,51 +294,42 @@ public class BlueBeacons extends LinearOpMode {
 
         turnDrive(.75, 135);
 
-        encoderDrive(.5, 55);
+        encoderDrive(.5, 55);*/
     }
 
     public void encoderDrive(double speed,
                              double inches) {
-        final int newLeftTarget;
-        final int newRightTarget;
-
-        DcMotor leftMotorFront = null;
-        DcMotor leftMotorBack = null;
-
-        DcMotor rightMotorFront = null;
-        DcMotor rightMotorBack = null;
-
-        leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
-        leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
-        rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
-        rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
-
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        int newLeftTarget;
+        int newRightTarget;
 
         leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            // Determine new target position, and pass to motor controller
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if(opModeIsActive()) {
             newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 45);
-            newRightTarget = rightMotorBack.getCurrentPosition() + (int)(inches * -45);
-            leftMotorBack.setTargetPosition(newLeftTarget);
-            rightMotorBack.setTargetPosition(newRightTarget);
+            newRightTarget = rightMotorBack.getCurrentPosition() - (int)(inches * 45);
 
-            // Turn On RUN_TO_POSITION
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            leftMotorBack.setTargetPosition(newLeftTarget);
+            rightMotorBack.setTargetPosition(newRightTarget);
 
             leftMotorBack.setPower(Math.abs(speed));
             rightMotorBack.setPower(Math.abs(speed));
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
             while (leftMotorBack.isBusy() && rightMotorBack.isBusy()) {
                 leftMotorFront.setPower(leftMotorBack.getPower());
                 rightMotorFront.setPower(rightMotorBack.getPower());
+
+                telemetry.addData("Left Mode: ", leftMotorBack.getMode());
+                telemetry.addData("Right Mode: ", rightMotorBack.getMode());
 
                 telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
                 telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
@@ -340,76 +339,135 @@ public class BlueBeacons extends LinearOpMode {
                 telemetry.update();
             }
 
-            // Stop all motion;
-            leftMotorBack.setPower(0);
             leftMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
+            leftMotorBack.setPower(0);
             rightMotorFront.setPower(0);
+            rightMotorBack.setPower(0);
 
             leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
+
     }
     public void turnDrive(double speed,
                              double degrees) {
-        final int newLeftTarget;
-        final int newRightTarget;
+        int newLeftTarget;
+        int newRightTarget;
 
-        DcMotor leftMotorFront = null;
-        DcMotor leftMotorBack = null;
+        boolean ran = false;
 
-        DcMotor rightMotorFront = null;
-        DcMotor rightMotorBack = null;
+        newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(degrees * 3);
+        newRightTarget = rightMotorBack.getCurrentPosition() + (int)(degrees * -3);
 
-        leftMotorFront = hardwareMap.dcMotor.get("left_drive_front");
-        leftMotorBack = hardwareMap.dcMotor.get("left_drive_back");
-        rightMotorFront = hardwareMap.dcMotor.get("right_drive_front");
-        rightMotorBack = hardwareMap.dcMotor.get("right_drive_back");
 
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(degrees * 9);
-            newRightTarget = rightMotorBack.getCurrentPosition() + (int)(degrees * 9);
 
-            leftMotorBack.setTargetPosition(newLeftTarget);
-            rightMotorBack.setTargetPosition(newRightTarget);
+            if (ran ==false && opModeIsActive() && leftMotorBack.getCurrentPosition() < newLeftTarget && rightMotorBack.getCurrentPosition() < newRightTarget) {
+                leftMotorBack.setPower(speed);
+                leftMotorFront.setPower(speed);
 
-            // Turn On RUN_TO_POSITION
-            leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightMotorBack.setPower(speed);
+                rightMotorFront.setPower(speed);
 
-            leftMotorBack.setPower(Math.abs(speed));
-            rightMotorBack.setPower(Math.abs(speed));
+                while(leftMotorBack.getCurrentPosition() != newLeftTarget && rightMotorBack.getCurrentPosition() != newRightTarget) {
+                    telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
+                    telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            while (leftMotorBack.isBusy() && rightMotorBack.isBusy()) {
-                leftMotorFront.setPower(leftMotorBack.getPower());
-                rightMotorFront.setPower(rightMotorBack.getPower());
+                    telemetry.addData("Left at: ", leftMotorBack.getCurrentPosition());
+                    telemetry.addData("Right at: ", rightMotorBack.getCurrentPosition());
 
-                telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
-                telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
+                    telemetry.addData("Left front: ", leftMotorFront.getCurrentPosition());
+                    telemetry.update();
+                }
 
-                telemetry.addData("Left at: ", leftMotorBack.getCurrentPosition());
-                telemetry.addData("Right at: ", rightMotorBack.getCurrentPosition());
-                telemetry.update();
+                leftMotorBack.setPower(0);
+                leftMotorFront.setPower(0);
+
+                rightMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+
+                ran = true;
             }
 
-            // Stop all motion;
-            leftMotorBack.setPower(0);
-            leftMotorFront.setPower(0);
-            rightMotorBack.setPower(0);
-            rightMotorFront.setPower(0);
+            else if (ran ==false && opModeIsActive() && leftMotorBack.getCurrentPosition() < newLeftTarget && rightMotorBack.getCurrentPosition() > newRightTarget) {
+                leftMotorBack.setPower(speed);
+                leftMotorFront.setPower(speed);
 
-            leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightMotorBack.setPower(-speed);
+                rightMotorFront.setPower(-speed);
+
+                while(leftMotorBack.getCurrentPosition() != newLeftTarget && rightMotorBack.getCurrentPosition() != newRightTarget) {
+                    telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
+                    telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
+
+                    telemetry.addData("Left at: ", leftMotorBack.getCurrentPosition());
+                    telemetry.addData("Right at: ", rightMotorBack.getCurrentPosition());
+
+                    telemetry.addData("Left front: ", leftMotorFront.getCurrentPosition());
+                    telemetry.update();
+                }
+
+                leftMotorBack.setPower(0);
+                leftMotorFront.setPower(0);
+
+                rightMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+
+                ran = true;
+            }
+
+            else if (ran ==false && opModeIsActive() && leftMotorBack.getCurrentPosition() > newLeftTarget && rightMotorBack.getCurrentPosition() < newRightTarget) {
+                leftMotorBack.setPower(-speed);
+                leftMotorFront.setPower(-speed);
+
+                rightMotorBack.setPower(speed);
+                rightMotorFront.setPower(speed);
+
+                while (leftMotorBack.getCurrentPosition() != newLeftTarget && rightMotorBack.getCurrentPosition() != newRightTarget) {
+                    telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
+                    telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
+
+                    telemetry.addData("Left at: ", leftMotorBack.getCurrentPosition());
+                    telemetry.addData("Right at: ", rightMotorBack.getCurrentPosition());
+                    telemetry.addData("Left front: ", leftMotorFront.getCurrentPosition());
+                    telemetry.update();
+                }
+
+                leftMotorBack.setPower(0);
+                leftMotorFront.setPower(0);
+
+                rightMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+
+                ran = true;
+            }
+
+            else if (ran ==false && opModeIsActive() && leftMotorBack.getCurrentPosition() > newLeftTarget && rightMotorBack.getCurrentPosition() > newRightTarget) {
+                leftMotorBack.setPower(-speed);
+                leftMotorFront.setPower(-speed);
+
+                rightMotorBack.setPower(-speed);
+                rightMotorFront.setPower(-speed);
+
+                while(leftMotorBack.getCurrentPosition() != newLeftTarget && rightMotorBack.getCurrentPosition() != newRightTarget) {
+                    telemetry.addData("Left Moving to: ", leftMotorBack.getTargetPosition());
+                    telemetry.addData("Right Moving to: ", rightMotorBack.getTargetPosition());
+
+                    telemetry.addData("Left at: ", leftMotorBack.getCurrentPosition());
+                    telemetry.addData("Right at: ", rightMotorBack.getCurrentPosition());
+                    telemetry.update();
+                }
+
+                leftMotorBack.setPower(0);
+                leftMotorFront.setPower(0);
+
+                rightMotorBack.setPower(0);
+                rightMotorFront.setPower(0);
+
+                ran = true;
+            }
         }
     }
 }

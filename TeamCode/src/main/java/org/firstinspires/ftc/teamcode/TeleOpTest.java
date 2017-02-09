@@ -91,10 +91,10 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("Right Motor Back: ", rightMotorBack.getPower());
             telemetry.addData("Right Motor Front: ", rightMotorFront.getPower());
 /*            telemetry.addData("Half Speed: ", halfSpeed);*/
-/*            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
+            telemetry.addData("Right Front Tisks: ", rightMotorFront.getCurrentPosition());
             telemetry.addData("Right Back Tisks: ", rightMotorBack.getCurrentPosition());
             telemetry.addData("Left Front Tisks: ", leftMotorFront.getCurrentPosition());
-            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());*/
+            telemetry.addData("Left Bac Tisks: ", leftMotorBack.getCurrentPosition());
             telemetry.addData("Servo 1: ", stopper1.getPosition());
             telemetry.addData("Servo 2: ", stopper2.getPosition());
             telemetry.addData("Is flipper at the end: ", touch.isPressed());
