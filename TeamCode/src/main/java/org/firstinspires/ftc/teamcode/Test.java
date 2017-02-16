@@ -5,11 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AAAAHHH", group="Autonomous")
+@Disabled
+@Autonomous(name="BallnParkEncoder", group="CenterVortex")
 public class Test extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
@@ -47,55 +49,49 @@ public class Test extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        idle();
-
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                 leftMotorBack.getCurrentPosition(),
                 rightMotorBack.getCurrentPosition());
         telemetry.update();
 
-        encoderDrive(.75, 50);
-        sleep(5000);
-        encoderDrive(-.75, 50);
+        encoderDrive(.55, 58);
     }
 
     public void encoderDrive(double speed, double inches) {
-        int newLeftTarget;
-        int newRightTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = leftMotorBack.getCurrentPosition() + (int)(inches * 45);
-            newRightTarget = rightMotorBack.getCurrentPosition() + (int)(inches * 45);
-            leftMotorBack.setTargetPosition(newLeftTarget);
-            rightMotorBack.setTargetPosition(newRightTarget);
+            int newLeftFrontTarget = leftMotorFront.getCurrentPosition() + (int)(inches * 45);
+            int newLeftBackTarget = leftMotorFront.getCurrentPosition() + (int)(inches * 45);
+            int newRightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -45);
+            int newRightBackTarget = rightMotorFront.getCurrentPosition() + (int)(inches * -45);
+            leftMotorFront.setTargetPosition(newLeftFrontTarget);
+            leftMotorBack.setTargetPosition(newLeftBackTarget);
+            rightMotorFront.setTargetPosition(newRightFrontTarget);
+            rightMotorBack.setTargetPosition(newRightBackTarget);
 
             // Turn On RUN_TO_POSITION
+            leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            leftMotorBack.setPower(Math.abs(speed));
-            rightMotorBack.setPower(Math.abs(speed));
+            leftMotorFront.setPower(speed);
+            leftMotorBack.setPower(speed);
+            rightMotorFront.setPower(-speed);
+            rightMotorBack.setPower(-speed);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
-            while (opModeIsActive() && (leftMotorBack.isBusy() && rightMotorBack.isBusy())) {
+            while (opModeIsActive() && leftMotorBack.isBusy() && rightMotorBack.isBusy() && leftMotorFront.isBusy() && rightMotorFront.isBusy()) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newRightBackTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                         leftMotorBack.getCurrentPosition(),
                         rightMotorBack.getCurrentPosition());
                 telemetry.update();
-
-                leftMotorFront.setPower(leftMotorBack.getPower());
-                rightMotorFront.setPower(rightMotorBack.getPower());
             }
 
             // Stop all motion;
@@ -105,8 +101,52 @@ public class Test extends LinearOpMode {
             rightMotorBack.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+    public void turningDrive(double speed, double degrees) {
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            int newLeftFrontTarget = leftMotorFront.getCurrentPosition() + (int)(degrees * 9);
+            int newLeftBackTarget = leftMotorFront.getCurrentPosition() + (int)(degrees * 9);
+            int newRightFrontTarget = rightMotorFront.getCurrentPosition() + (int)(degrees * 9);
+            int newRightBackTarget = rightMotorFront.getCurrentPosition() + (int)(degrees * 9);
+            leftMotorFront.setTargetPosition(newLeftFrontTarget);
+            leftMotorBack.setTargetPosition(newLeftBackTarget);
+            rightMotorFront.setTargetPosition(newRightFrontTarget);
+            rightMotorBack.setTargetPosition(newRightBackTarget);
+
+            // Turn On RUN_TO_POSITION
+            leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            leftMotorFront.setPower(speed);
+            leftMotorBack.setPower(speed);
+            rightMotorFront.setPower(speed);
+            rightMotorBack.setPower(speed);
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (opModeIsActive() && leftMotorBack.isBusy() && rightMotorBack.isBusy() && leftMotorFront.isBusy() && rightMotorFront.isBusy()) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newRightBackTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        leftMotorBack.getCurrentPosition(),
+                        rightMotorBack.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            leftMotorFront.setPower(0);
+            leftMotorBack.setPower(0);
+            rightMotorFront.setPower(0);
+            rightMotorBack.setPower(0);
+
+            // Turn off RUN_TO_POSITION
         }
     }
 }

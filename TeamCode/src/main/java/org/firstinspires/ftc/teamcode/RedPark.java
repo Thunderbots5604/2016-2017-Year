@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red Park", group="Pushbot")
+@Autonomous(name="Red Park", group="CornerVortex")
 public class RedPark extends LinearOpMode {
 
     /* Declare OpMode members. */

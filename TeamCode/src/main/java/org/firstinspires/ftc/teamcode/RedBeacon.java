@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,8 +8,8 @@ import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="BlueBeacons", group="Autonomous")
-public class BlueBeacons extends LinearOpMode {
+@Autonomous(name="RedBeacons", group="Autonomous")
+public class RedBeacon extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -94,10 +93,10 @@ public class BlueBeacons extends LinearOpMode {
 
         //Turning until line
 
-        leftMotorFront.setPower(-.4);
-        leftMotorBack.setPower(-.4);
-        rightMotorFront.setPower(-.4);
-        rightMotorBack.setPower(-.4);
+        leftMotorFront.setPower(.4);
+        leftMotorBack.setPower(.4);
+        rightMotorFront.setPower(.4);
+        rightMotorBack.setPower(.4);
 
         while (opModeIsActive() && (light.getLightDetected() < WHITE_THRESHOLD)) {
 
@@ -140,7 +139,7 @@ public class BlueBeacons extends LinearOpMode {
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
             sleep(1000);
-            turnDrive(-.75, 15);
+            turnDrive(.75, 15);
             leftMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -152,7 +151,7 @@ public class BlueBeacons extends LinearOpMode {
             telemetry.addData("Blue: ", color.blue());
             telemetry.update();
             sleep(1000);
-            turnDrive(.75, 15);
+            turnDrive(-.75, 15);
             leftMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -188,7 +187,7 @@ public class BlueBeacons extends LinearOpMode {
         rightMotorBack.setPower(0);
 
         //Turning Method
-        turnDrive(.75, 90);
+        turnDrive(-.75, 90);
         leftMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftMotorBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotorFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

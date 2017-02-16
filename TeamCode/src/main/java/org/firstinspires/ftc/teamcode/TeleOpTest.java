@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.Math.*;
 
 
-@TeleOp(name="TeleOp", group="Linear Opmode")
+@TeleOp(name="TeleOp", group="TeleOp")
 public class TeleOpTest extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
